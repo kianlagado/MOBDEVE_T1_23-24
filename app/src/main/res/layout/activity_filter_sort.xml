@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A2A9AA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header: Filter & Sort -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter & Sort"
+            android:textColor="#6E8D71"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Filter Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filters"
+            android:textColor="#6E8D71"
+            android:textSize="20sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Example Filter: Genres Dropdown -->
+        <!-- Additional filters can be added in a similar manner -->
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Sort Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort By"
+            android:textColor="#6E8D71"
+            android:textSize="20sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Example Sort: Radio Buttons -->
+        <!-- Additional sorting options can be added in a similar manner -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title (Alphabetical)"
+                android:textColor="#E5D5BA" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:textColor="#E5D5BA" />
+        </RadioGroup>
+
+        <!-- Apply Button -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:textColor="#E5D5BA"
+            android:background="@drawable/button_apply_bg"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Reset Button -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:textColor="#6E8D71"
+            android:background="@drawable/button_reset_bg" />
+
+    </LinearLayout>
+</ScrollView>
