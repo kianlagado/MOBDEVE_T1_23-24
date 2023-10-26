@@ -22,11 +22,23 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profile_icon"
         android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
         android:text="AnimaExpress"
         android:textColor="#5E758D"
         android:textSize="24sp" />
+
+    <!-- Filter Icon -->
+    <ImageButton
+        android:id="@+id/filter_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/search_icon"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_filter"
+        app:tint="#5E758D" />
 
     <!-- Search Icon -->
     <ImageButton
