@@ -3,6 +3,7 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,15 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Search selectedSearchItem = (Search) parent.getItemAtPosition(position);
                 // Handle the item click here
+            }
+        });
+
+        // Close button "X"
+        ImageButton btnCloseSearch = findViewById(R.id.btn_close_search);
+        btnCloseSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
