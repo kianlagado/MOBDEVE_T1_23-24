@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MCO2_Abelgas_Lagado_Llamado</string>
+
+    <string-array name="genres_array">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Comedy</item>
+        <!-- Add other genres as needed -->
+    </string-array>
 </resources>
