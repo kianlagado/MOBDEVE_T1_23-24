@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A2A9AA">
+    android:background="#DCDCDC">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,13 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title (Alphabetical)"
-                android:textColor="#E5D5BA" />
+                android:textColor="#6E8D71" />
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rating"
-                android:textColor="#E5D5BA" />
+                android:textColor="#6E8D71" />
         </RadioGroup>
 
         <!-- Apply Button -->
