@@ -2,7 +2,10 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,5 +31,23 @@ public class MainActivity extends AppCompatActivity {
         AnimeAdapter adapter = new AnimeAdapter(this, sampleData);
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+
+        ImageButton searchIcon = findViewById(R.id.search_icon);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+            }
+        });
+
+        ImageButton filterIcon = findViewById(R.id.filter_icon);
+        filterIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent filterIntent = new Intent(MainActivity.this, FilterSortActivity.class);
+                startActivity(filterIntent);
+            }
+        });
     }
 }
