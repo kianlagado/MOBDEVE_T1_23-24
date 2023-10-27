@@ -85,9 +85,8 @@
             android:background="#6E8D71" />
     </LinearLayout>
 
-    <!-- ListView for displaying the Anime/Manga list -->
-    <ListView
-        android:id="@+id/list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toggle_layout"
