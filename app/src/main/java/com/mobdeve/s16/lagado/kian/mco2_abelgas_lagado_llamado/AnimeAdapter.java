@@ -1,60 +1,86 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
-import android.widget.ListView;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
-public class AnimeAdapter extends BaseAdapter {
-    private Context context;
-    private List<Anime> animeList;
+public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder> {
 
+    private List<Anime> animeList;
+    private Context context;
+
+    private OnItemClickListener Listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        Listener = listener;
+    }
+
+    // Constructor
     public AnimeAdapter(Context context, List<Anime> animeList) {
         this.context = context;
         this.animeList = animeList;
     }
 
-    @Override
-    public int getCount() {
-        return animeList.size();
-    }
+    // ViewHolder class
+    public static class AnimeViewHolder extends RecyclerView.ViewHolder {
+        ImageView thumbnail;
+        TextView title;
+        TextView synopsis;
+        TextView rating;
 
-    @Override
-    public Object getItem(int position) {
-        return animeList.get(position);
-    }
+        public AnimeViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            thumbnail = itemView.findViewById(R.id.thumbnail);
+            title = itemView.findViewById(R.id.title);
+            synopsis = itemView.findViewById(R.id.synopsis);
+            rating = itemView.findViewById(R.id.rating);
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
 
-        ImageView thumbnail = convertView.findViewById(R.id.thumbnail);
-        TextView title = convertView.findViewById(R.id.title);
-        TextView synopsis = convertView.findViewById(R.id.synopsis);
-        TextView rating = convertView.findViewById(R.id.rating);
+    }
 
+    @NonNull
+    @Override
+    public AnimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new AnimeViewHolder(view, Listener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AnimeViewHolder holder, int position) {
         Anime anime = animeList.get(position);
+        holder.thumbnail.setImageResource(anime.getThumbnail());
+        holder.title.setText(anime.getTitle());
+        holder.synopsis.setText(anime.getSynopsis());
+        holder.rating.setText(anime.getRating());
+    }
 
-        thumbnail.setImageResource(anime.getThumbnail());
-        title.setText(anime.getTitle());
-        synopsis.setText(anime.getSynopsis());
-        rating.setText(anime.getRating());
-
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return animeList.size();
     }
 }
