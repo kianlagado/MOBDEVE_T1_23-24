@@ -2,9 +2,8 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,17 +12,17 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private ListView searchListView;
+    private RecyclerView searchRecyclerView;
     private SearchResultAdapter searchResultAdapter;
 
     @Override
@@ -31,20 +30,12 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Initialize the ListView and Adapter
-        searchListView = findViewById(R.id.search_list_view);
+        // Initialize the RecyclerView and Adapter
+        searchRecyclerView = findViewById(R.id.recycler_search);
         List<Search> searchResults = getSearchResults();
         searchResultAdapter = new SearchResultAdapter(this, searchResults);
-        searchListView.setAdapter(searchResultAdapter);
-
-        // Item click listener
-        searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Search selectedSearchItem = (Search) parent.getItemAtPosition(position);
-                // Handle the item click here
-            }
-        });
+        searchRecyclerView.setAdapter(searchResultAdapter);
+        searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Close button "X"
         ImageButton btnCloseSearch = findViewById(R.id.btn_close_search);
@@ -58,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<Search> getSearchResults() {
         List<Search> results = new ArrayList<>();
-        results.add(new Search(R.drawable.thumbnail, "Shingeki no Kyojin", "10/10"));
+        results.add(new Search(R.drawable.thumbnail1, "Stein's Gate", "10/10"));
         results.add(new Search(R.drawable.thumbnail, "Attack on Titan", "10/10"));
         // ... add more data as needed
         return results;
