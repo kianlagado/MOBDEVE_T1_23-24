@@ -22,6 +22,17 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton btnAddToLibrary = findViewById(R.id.btn_add_to_library);
+        btnAddToLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to launch the AddToLibraryActivity
+                Intent intent = new Intent(DetailActivity.this, AddToLibraryActivity.class);
+
+                // Start the activity
+                startActivity(intent);
+            }
+        });
         /*
         Intent intent = getIntent();
         if (intent != null) {
