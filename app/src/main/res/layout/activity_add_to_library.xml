@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A2A9AA">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6E8D71"
+        android:padding="16dp">
+
+    <!-- Close Button on the top left -->
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:tint="#E5D5BA" />
+
+    <!-- Header Text centered -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Add to Library"
+            android:textColor="#E5D5BA"
+            android:textSize="24sp" /> <!-- Gainsboro Color for visibility -->
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_layout"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/header_layout"
+            android:padding="16dp" >
+
+            <!-- Title of Anime/Manga -->
+            <TextView
+                android:id="@+id/tv_anime_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Spy x Family"
+                android:textSize="20sp"
+                android:textColor="#5E758D" />
+
+            <!-- Anime/Manga Image -->
+            <ImageView
+                android:id="@+id/img_anime"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/header_layout"
+                android:layout_marginTop="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/spyxfam" />
+
+            <!-- Status Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="#5E758D"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Status Dropdown -->
+            <Spinner
+                android:id="@+id/spinner_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_anime"
+                android:layout_marginTop="16dp"
+                android:background="#DCDCDC"
+                android:entries="@array/status_array" />
+
+            <!-- Episode Progress Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Episode Progress"
+                android:textColor="#5E758D"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Episode Progress Input -->
+            <EditText
+                android:id="@+id/et_episode_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="#DCDCDC"
+                android:hint="Enter number of episodes watched"
+                android:inputType="number" />
+
+            <!-- RatingLabel -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:textColor="#5E758D"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Rating Input -->
+            <EditText
+                android:id="@+id/et_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinner_status"
+                android:background="#DCDCDC"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:hint="Rate out of 10"
+                android:inputType="number" />
+
+            <!-- Episode Progress Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes"
+                android:textColor="#5E758D"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Notes Input -->
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Add your notes here..."
+                android:background="#DCDCDC"
+                android:layout_marginTop="16dp"
+                android:inputType="textMultiLine"
+                android:gravity="start"
+                android:lines="4"
+                android:maxLines="6"
+                android:scrollbars="vertical" />
+
+            <!-- Add Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@+id/et_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:text="Add to Library"
+                android:backgroundTint="#6E8D71"
+                android:textColor="#E5D5BA" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
