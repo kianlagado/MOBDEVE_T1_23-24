@@ -1,10 +1,13 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -29,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting the adapter
         AnimeAdapter adapter = new AnimeAdapter(this, sampleData);
-        ListView listView = findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);  // Initialize the RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set its layout manager
+        recyclerView.setAdapter(adapter);                             // Attach the adapter
 
         ImageButton searchIcon = findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(new View.OnClickListener() {
@@ -59,12 +63,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter.setOnItemClickListener(new AnimeAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(int position) {
                 Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
+                // If needed, pass extra data to the DetailActivity using putExtra
                 startActivity(detailIntent);
             }
         });
     }
 }
+
