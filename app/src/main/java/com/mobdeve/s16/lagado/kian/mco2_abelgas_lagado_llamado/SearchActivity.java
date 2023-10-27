@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<Search> getSearchResults() {
         List<Search> results = new ArrayList<>();
-        results.add(new Search(R.drawable.thumbnail1, "Stein's Gate", "10/10"));
+        results.add(new Search(R.drawable.thumbnail, "Stein's Gate", "10/10"));
         results.add(new Search(R.drawable.thumbnail, "Attack on Titan", "10/10"));
         // ... add more data as needed
         return results;

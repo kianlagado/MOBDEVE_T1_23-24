@@ -36,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set its layout manager
         recyclerView.setAdapter(adapter);                             // Attach the adapter
 
+
+        ImageButton libraryIcon = findViewById(R.id.library_icon);
+        libraryIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent libraryIntent = new Intent(MainActivity.this, LibraryActivity.class);
+                startActivity(libraryIntent);
+            }
+        });
+
         ImageButton searchIcon = findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
