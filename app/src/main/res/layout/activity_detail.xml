@@ -170,14 +170,15 @@
                 android:layout_below="@+id/tv_airing_date"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"/>
+
             <TextView
                 android:id="@+id/tv_studio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#5E758D"
-                android:text="CloverWorks and Wit Studio"
                 android:layout_below="@+id/tv_studio_header"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Enter Studio Here"
+                android:textColor="#5E758D" />
 
             <!-- Status -->
             <TextView
@@ -190,14 +191,15 @@
                 android:layout_below="@+id/tv_studio"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"/>
+
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#5E758D"
-                android:text="Completed"
                 android:layout_below="@+id/tv_status_header"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Finished Airing"
+                android:textColor="#5E758D" />
         </LinearLayout>
 
     </ScrollView>

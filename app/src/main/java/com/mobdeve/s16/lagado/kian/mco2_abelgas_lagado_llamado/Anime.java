@@ -8,13 +8,15 @@ public class Anime {
     private String userStatus;
     private String userProgress;
     private String year;
+    private String type;
 
 
-    public Anime(String title, int thumbnail, String synopsis, String rating) {
+    public Anime(String title, int thumbnail, String synopsis, String rating, String type) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.synopsis = synopsis;
         this.rating = rating;
+        this.type = type;
     }
     public void setUserStatus(String s) {
         this.userStatus = s;
@@ -50,4 +52,5 @@ public class Anime {
     public String getYear() {return year;}
     public String getUserProgress() {return userProgress;}
     public String getUserRating() {return userRating;}
+    public String getType() {return type;}
 }

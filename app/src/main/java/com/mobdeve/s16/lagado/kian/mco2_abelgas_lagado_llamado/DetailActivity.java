@@ -6,13 +6,40 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
+
+    TextView titleText;
+    TextView ratingText;
+    TextView descText;
+    TextView dateText;
+    ImageView itemImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        Intent i = getIntent();
+        String title = i.getStringExtra(MainActivity.TITLE_TAG);
+        String rating = i.getStringExtra(MainActivity.RATING_TAG);
+        String desc = i.getStringExtra(MainActivity.DESC_TAG);
+        String date = i.getStringExtra(MainActivity.YEAR_TAG);
+        Integer image = i.getIntExtra(MainActivity.IMAGE_TAG, 0);
+
+        titleText = findViewById(R.id.tv_detail_title);
+        ratingText = findViewById(R.id.tv_detail_rating);
+        descText = findViewById(R.id.tv_synopsis_content);
+        dateText = findViewById(R.id.tv_airing_date);
+        itemImage = findViewById(R.id.iv_detail_image);
+
+        titleText.setText(title);
+        ratingText.setText("Rating: " + rating);
+        descText.setText(desc);
+        dateText.setText(date);
+        itemImage.setImageResource(image);
 
         ImageButton backButton = findViewById(R.id.btn_exit_detail);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -23,6 +50,8 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         ImageButton btnAddToLibrary = findViewById(R.id.btn_add_to_library);
+
+        // TODO: make button invisible if anime/manga is already in library
         btnAddToLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
