@@ -10,14 +10,11 @@
         android:id="@+id/profile_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/ic_profile"
-        android:contentDescription="Profile Icon"
         app:tint="#5E758D" />
 
     <!-- Header with the app name -->
@@ -37,11 +34,9 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/search_icon"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_toStartOf="@+id/search_icon"
-        android:layout_toLeftOf="@id/search_icon"
         android:background="@drawable/ic_filter"
         app:tint="#5E758D" />
 
@@ -52,10 +47,8 @@
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/ic_search"
         app:tint="#5E758D" />
 
@@ -75,10 +68,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#6E8D71"
-            android:textColor="#E5D5BA"
+            android:textOn="Anime"
             android:textOff="Anime"
-            android:textOn="Anime" />
+            android:textColor="#E5D5BA"
+            android:background="#6E8D71" />
 
         <!-- Toggle button for Manga -->
         <ToggleButton
@@ -86,10 +79,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#6E8D71"
-            android:textColor="#E5D5BA"
+            android:textOn="Manga"
             android:textOff="Manga"
-            android:textOn="Manga" />
+            android:textColor="#E5D5BA"
+            android:background="#6E8D71" />
     </LinearLayout>
 
     <!-- ListView for displaying the Anime/Manga list -->
@@ -98,9 +91,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toggle_layout"
-        android:background="#A2A9AA"
         android:divider="#5E758D"
         android:dividerHeight="1dp"
+        android:background="#DCDCDC"
         android:listSelector="#E5D5BA" />
 
 </RelativeLayout>
