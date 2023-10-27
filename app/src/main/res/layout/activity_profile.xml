@@ -37,20 +37,12 @@
 
         <!-- Filter Section -->
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_library"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginBottom="12dp"
             android:background="#6E8D71"
             android:text="Personal Library"
-            android:textColor="#E5D5BA" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginBottom="12dp"
-            android:background="#6E8D71"
-            android:text="Settings and Personalization"
             android:textColor="#E5D5BA" />
 
         <TextView
