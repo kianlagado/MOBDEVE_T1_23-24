@@ -1,9 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+    android:background="#DCDCDC">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Sticky Header -->
+    <RelativeLayout
+        android:id="@+id/detail_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#A2A9AA"
+        android:padding="16dp">
+
+        <!-- Exit/Back Button -->
+        <ImageButton
+            android:id="@+id/btn_exit_detail"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="#5E758D" />
+
+        <!-- Anime/Manga Title -->
+        <TextView
+            android:id="@+id/tv_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Spy x Family"
+            android:textColor="#5E758D"
+            android:textSize="24sp" />
+
+        <!-- Add to Library ImageButton -->
+        <ImageButton
+            android:id="@+id/btn_add_to_library"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_library"
+            app:tint="#5E758D" />
+
+    </RelativeLayout>
+
+    <!-- Content Area inside a ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/detail_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Anime/Manga Image -->
+            <ImageView
+                android:id="@+id/iv_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:src="@drawable/spyxfam"
+                android:scaleType="fitCenter" />
+
+            <!-- Rating -->
+            <TextView
+                android:id="@+id/tv_detail_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Rating: 8.5/10"
+                android:textColor="#5E758D"
+                android:textSize="18sp" />
+
+            <!-- Synopsis Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Synopsis"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Synopsis Content -->
+            <TextView
+                android:id="@+id/tv_synopsis_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Anya, Loid, Yor, Bond"
+                android:textColor="#5E758D" />
+
+            <!-- Additional contents like Number of Episodes, Release Year, and Genre Tags can be added here -->
+            <!-- Genres -->
+            <TextView
+                android:id="@+id/tv_genres_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genres"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_synopsis"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/tv_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#5E758D"
+                android:text="Action, Comedy, Slice of Life, Supernatural"
+                android:layout_below="@+id/tv_genres_header"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Episodes/Chapters -->
+            <TextView
+                android:id="@+id/tv_episodes_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Episodes"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_genres"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/tv_episodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#5E758D"
+                android:text="12"
+                android:layout_below="@+id/tv_episodes_header"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Airing/Release Date -->
+            <TextView
+                android:id="@+id/tv_airing_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aired On"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_episodes"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/tv_airing_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#5E758D"
+                android:text="April 9, 2022"
+                android:layout_below="@+id/tv_airing_header"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Studio/Author -->
+            <TextView
+                android:id="@+id/tv_studio_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Studio"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_airing_date"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/tv_studio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#5E758D"
+                android:text="CloverWorks and Wit Studio"
+                android:layout_below="@+id/tv_studio_header"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/tv_status_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="#5E758D"
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_studio"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#5E758D"
+                android:text="Completed"
+                android:layout_below="@+id/tv_status_header"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
