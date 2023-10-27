@@ -49,5 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(filterIntent);
             }
         });
+
+        ImageButton profileIcon = findViewById(R.id.profile_icon);
+        profileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(profileIntent);
+            }
+        });
     }
 }
