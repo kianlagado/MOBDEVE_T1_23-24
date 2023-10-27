@@ -44,14 +44,14 @@
     </RelativeLayout>
 
     <!-- ListView for displaying the search results -->
-    <ListView
-        android:id="@+id/search_list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_layout"
-        android:divider="#E5D5BA"
+        android:layout_below="@+id/search_layout"
+        android:background="#A2A9AA"
+        android:divider="#5E758D"
         android:dividerHeight="1dp"
-        android:listSelector="#E5D5BA"
-        android:layout_marginTop="16dp" />
+        android:listSelector="#E5D5BA" />
 
 </RelativeLayout>
