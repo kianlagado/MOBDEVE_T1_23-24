@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FilterSortActivity extends AppCompatActivity {
@@ -27,6 +29,24 @@ public class FilterSortActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        androidx.appcompat.widget.AppCompatButton btn_apply = findViewById(R.id.btn_apply);
+        btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Display a toast message for now
+                Toast.makeText(FilterSortActivity.this, "Filters Applied", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        androidx.appcompat.widget.AppCompatButton btn_reset = findViewById(R.id.btn_reset);
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Display a toast message for now
+                Toast.makeText(FilterSortActivity.this, "Filters Reset", Toast.LENGTH_SHORT).show();
             }
         });
     }
