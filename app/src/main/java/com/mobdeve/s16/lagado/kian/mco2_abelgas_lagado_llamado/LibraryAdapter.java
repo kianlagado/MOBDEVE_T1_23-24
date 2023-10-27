@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,9 +53,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         final Anime entryItem = sampleEntries.get(position);
         holder.entryTitle.setText(entryItem.getTitle());
         holder.entryDate.setText(entryItem.getDate());
-        holder.entryProgress.setText(entryItem.getUserProgress() + " eps");
         holder.entryRate.setText(entryItem.getUserRating());
         holder.entryImage.setImageResource(entryItem.getThumbnail());
+
+        if (entryItem.getType() == "Anime") holder.entryProgress.setText(entryItem.getUserProgress() + " eps");
+        else if (entryItem.getType() == "Manga") holder.entryProgress.setText(entryItem.getUserProgress() + " chs");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,15 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                 context.startActivity(i);
             }
         });
+
+        holder.entryEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: edit entry layout
+                Intent i = new Intent(context, EditEntryActivity.class);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -78,6 +90,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView entryImage;
+        ImageButton entryEdit;
         TextView entryTitle;
         TextView entryDate;
         TextView entryProgress;
@@ -90,6 +103,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             entryDate = itemView.findViewById(R.id.item_date);
             entryProgress = itemView.findViewById(R.id.item_progress);
             entryRate = itemView.findViewById(R.id.item_rating);
+            entryEdit = itemView.findViewById(R.id.item_edit);
         }
     }
 }

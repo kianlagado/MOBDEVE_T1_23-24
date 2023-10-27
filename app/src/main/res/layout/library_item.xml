@@ -93,7 +93,7 @@
                 android:layout_weight="1">
 
                 <ImageButton
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/item_edit"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="64dp"

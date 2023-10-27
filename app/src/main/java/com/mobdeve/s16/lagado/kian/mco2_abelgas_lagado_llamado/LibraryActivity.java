@@ -129,7 +129,7 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
-        //For filtering recyclerview based on watch status and library type
+        //For filtering recyclerview based on watch status and entry type
         allStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
