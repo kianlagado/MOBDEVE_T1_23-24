@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="Rating: 4.5/5"
+        android:text="Rating: 9/10"
         android:textColor="#E5D5BA"
         android:textSize="14sp" />
 </RelativeLayout>
