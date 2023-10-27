@@ -32,10 +32,13 @@ public class MainActivity extends AppCompatActivity {
         // Sample data
         List<Anime> sampleData = new ArrayList<>();
         sampleData.add(new Anime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
-        sampleData.get(0).setYear("2005");
+        sampleData.get(0).setDate("Oct 2006 - Jul 2007");
 
         sampleData.add(new Anime("Dr Stone", R.drawable.drstone, "Yay coca cola!", "9.1/10", "Anime"));
-        sampleData.get(1).setYear("2019");
+        sampleData.get(1).setDate("Jul 2019 - Dec 2019");
+
+        sampleData.add(new Anime("Oyasumi Punpun", R.drawable.punpun, "Free gallons of depresso espresso", "9.01/10", "Manga"));
+        sampleData.get(2).setDate("Mar 2007 - Nov 2013");
         // ... add more data
 
         // Setting the adapter
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 detailIntent.putExtra(IMAGE_TAG, sampleData.get(position).getThumbnail());
                 detailIntent.putExtra(DESC_TAG, sampleData.get(position).getSynopsis());
                 detailIntent.putExtra(RATING_TAG, sampleData.get(position).getRating());
-                detailIntent.putExtra(YEAR_TAG, sampleData.get(position).getYear());
+                detailIntent.putExtra(YEAR_TAG, sampleData.get(position).getDate());
                 startActivity(detailIntent);
             }
         });

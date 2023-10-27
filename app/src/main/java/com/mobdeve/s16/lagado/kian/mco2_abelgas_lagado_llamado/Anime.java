@@ -7,7 +7,7 @@ public class Anime {
     private String userRating;
     private String userStatus;
     private String userProgress;
-    private String year;
+    private String date;
     private String type;
 
 
@@ -26,8 +26,8 @@ public class Anime {
         this.userProgress = s;
     }
 
-    public void setYear(String s) {
-        this.year = s;
+    public void setDate(String s) {
+        this.date = s;
     }
     public void setUserRating(String s) {
         this.userRating = s;
@@ -49,7 +49,7 @@ public class Anime {
         return rating;
     }
     public String getUserStatus() {return userStatus;}
-    public String getYear() {return year;}
+    public String getDate() {return date;}
     public String getUserProgress() {return userProgress;}
     public String getUserRating() {return userRating;}
     public String getType() {return type;}

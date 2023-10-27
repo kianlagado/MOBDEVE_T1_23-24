@@ -51,7 +51,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Anime entryItem = sampleEntries.get(position);
         holder.entryTitle.setText(entryItem.getTitle());
-        holder.entryDate.setText(entryItem.getYear());
+        holder.entryDate.setText(entryItem.getDate());
         holder.entryProgress.setText(entryItem.getUserProgress() + " eps");
         holder.entryRate.setText(entryItem.getUserRating());
         holder.entryImage.setImageResource(entryItem.getThumbnail());
@@ -65,7 +65,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                 i.putExtra(IMAGE_TAG, entryItem.getThumbnail());
                 i.putExtra(DESC_TAG, entryItem.getSynopsis());
                 i.putExtra(RATING_TAG, entryItem.getRating());
-                i.putExtra(YEAR_TAG, entryItem.getYear());
+                i.putExtra(YEAR_TAG, entryItem.getDate());
                 context.startActivity(i);
             }
         });
