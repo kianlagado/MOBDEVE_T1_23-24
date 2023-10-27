@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#A2A9AA">
@@ -8,35 +9,84 @@
     <!-- Profile Icon -->
     <ImageButton
         android:id="@+id/profile_icon"
+<<<<<<< Updated upstream:res/layout/activity_main.xml
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
+=======
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/library_icon"
+>>>>>>> Stashed changes:app/src/main/res/layout/activity_main.xml
         android:background="@drawable/ic_profile"
         app:tint="#5E758D" />
 
     <!-- Header with the app name -->
+
+    <ImageButton
+        android:id="@+id/library_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_toStartOf="@+id/header"
+        android:background="@drawable/ic_library" />
+
     <TextView
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profile_icon"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
         android:text="AnimaExpress"
         android:textColor="#5E758D"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+<<<<<<< Updated upstream:res/layout/activity_main.xml
+    <!-- Search Icon -->
+=======
+    <!-- Filter Icon -->
 
     <!-- Search Icon -->
+
+    <ImageButton
+        android:id="@+id/filter_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/search_icon"
+        android:layout_toEndOf="@+id/header"
+        android:background="@drawable/ic_filter"
+        app:tint="#5E758D" />
+
+>>>>>>> Stashed changes:app/src/main/res/layout/activity_main.xml
     <ImageButton
         android:id="@+id/search_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp"
+<<<<<<< Updated upstream:res/layout/activity_main.xml
         android:layout_marginEnd="16dp"
+=======
+        android:layout_marginEnd="20dp"
+>>>>>>> Stashed changes:app/src/main/res/layout/activity_main.xml
         android:background="@drawable/ic_search"
         app:tint="#5E758D" />
 
