@@ -33,6 +33,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         this.animeList = animeList;
     }
 
+    public void updateData(List<Anime> updatedData) {
+        this.animeList = updatedData;
+        notifyDataSetChanged();
+    }
+
     // ViewHolder class
     public static class AnimeViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;

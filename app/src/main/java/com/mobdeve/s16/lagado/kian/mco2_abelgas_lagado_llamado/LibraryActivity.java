@@ -39,6 +39,7 @@ public class LibraryActivity extends AppCompatActivity {
     private List<Anime> currentEntries;
     private String currentStatus;
 
+    // For displaying changes made in editactivity on the library recyclerview
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -154,15 +155,15 @@ public class LibraryActivity extends AppCompatActivity {
                     planStatus.setText("Plan to Watch");
                     watchingStatus.setText("Watching");
                     currentType = "Anime";
-                    if (currentStatus == "Reading") currentStatus = "Watching";
-                    if (currentStatus == "Plan to Read") currentStatus = "Plan to Watch";
+                    if (currentStatus.equals("Reading")) currentStatus = "Watching";
+                    if (currentStatus.equals("Plan to Read")) currentStatus = "Plan to Watch";
                 }
                 else {
                     planStatus.setText("Plan to Read");
                     watchingStatus.setText("Reading");
                     currentType = "Manga";
-                    if (currentStatus == "Watching") currentStatus = "Reading";
-                    if (currentStatus == "Plan to Watch") currentStatus = "Plan to Read";
+                    if (currentStatus.equals("Watching")) currentStatus = "Reading";
+                    if (currentStatus.equals("Plan to Watch")) currentStatus = "Plan to Read";
                 }
                 currentEntries = filterListByStatus(currentStatus, currentType, sampleEntries);
                 entriesCount.setText(currentEntries.size() + " entries");
@@ -185,7 +186,7 @@ public class LibraryActivity extends AppCompatActivity {
         watchingStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentType == "Anime")
+                if (currentType.equals("Anime"))
                     currentStatus = "Watching";
                 else
                     currentStatus = "Reading";
@@ -208,7 +209,7 @@ public class LibraryActivity extends AppCompatActivity {
         planStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentType == "Anime")
+                if (currentType.equals("Anime"))
                     currentStatus = "Plan to Watch";
                 else
                     currentStatus = "Plan to Read";
@@ -234,7 +235,7 @@ public class LibraryActivity extends AppCompatActivity {
         List<Anime> filteredList = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
             Anime item = entries.get(i);
-            if (item.getType() == type) {
+            if (item.getType().equals(type)) {
                 if (item.getUserStatus().equals(status) || "All".equals(status)) {
                     filteredList.add(item);
                 }

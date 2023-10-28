@@ -13,8 +13,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
@@ -52,8 +50,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public LibraryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.library_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -66,8 +63,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
         holder.entryProgress.setText(entryItem.getUserProgress());
         // TODO: Should obtain total eps/chapters from API call
-        if (entryItem.getType() == "Anime") holder.entryTotal.setText("/Total eps");
-        else if (entryItem.getType() == "Manga") holder.entryTotal.setText("/Total chs");
+        if (entryItem.getType().equals("Anime")) holder.entryTotal.setText("/Total eps");
+        else if (entryItem.getType().equals("Manga")) holder.entryTotal.setText("/Total chs");
 
         // Goes to detail activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {

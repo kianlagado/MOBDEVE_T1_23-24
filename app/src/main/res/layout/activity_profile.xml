@@ -21,8 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="@color/black" />
 
         <!-- Header: Filter & Sort -->
 

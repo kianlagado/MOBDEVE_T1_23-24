@@ -51,7 +51,7 @@ public class EditEntryActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String title = intent.getStringExtra(LibraryAdapter.TITLE_TAG);
-        Integer image = intent.getIntExtra(LibraryAdapter.IMAGE_TAG, 0);
+        int image = intent.getIntExtra(LibraryAdapter.IMAGE_TAG, 0);
         String status = intent.getStringExtra(LibraryAdapter.USER_STATUS_TAG);
         String userRating = intent.getStringExtra(LibraryAdapter.USER_RATING_TAG);
         String userProgress = intent.getStringExtra(LibraryAdapter.USER_PROGRESS_TAG);
@@ -87,7 +87,7 @@ public class EditEntryActivity extends AppCompatActivity {
 
         // For highlighting and getting the currently selected rating value
         ratingBtnLayout = findViewById(R.id.rating_btns_layout);
-        ratingButtons = new ArrayList<Button>();
+        ratingButtons = new ArrayList<>();
         for (int i = 0; i < ratingBtnLayout.getChildCount(); i++) {
             Button button = (Button) ratingBtnLayout.getChildAt(i);
             ratingButtons.add(button);
@@ -107,10 +107,10 @@ public class EditEntryActivity extends AppCompatActivity {
         }
 
         // For highlighting and getting currently selected status
-        statusLayouts = new ArrayList<LinearLayout>();
+        statusLayouts = new ArrayList<>();
         statusLayouts.add(findViewById(R.id.status_btns_layout));
         statusLayouts.add(findViewById(R.id.status_btns_layout2));
-        statusButtons = new ArrayList<Button>();
+        statusButtons = new ArrayList<>();
         for (int i = 0; i < statusLayouts.size(); i++) {
             for (int j = 0; j < statusLayouts.get(i).getChildCount(); j++) {
                 Button button = (Button) statusLayouts.get(i).getChildAt(j);

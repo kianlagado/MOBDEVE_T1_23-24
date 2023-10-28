@@ -3,7 +3,9 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     public static String DESC_TAG = "DESC";
     public static String RATING_TAG = "RATING";
     public static String YEAR_TAG = "YEAR";
+    private String currentType;
+    private List<Anime> sampleData;
+    private List<Anime> currentEntries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Sample data
-        List<Anime> sampleData = new ArrayList<>();
+        sampleData = new ArrayList<>();
         sampleData.add(new Anime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
         sampleData.get(0).setDate("Oct 2006 - Jul 2007");
 
@@ -36,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
         sampleData.get(2).setDate("Mar 2007 - Nov 2013");
         // ... add more data
 
+        // Default settings
+        currentType = "Anime";
+        currentEntries = filterListByType(currentType, sampleData);
+
         // Setting the adapter
-        AnimeAdapter adapter = new AnimeAdapter(this, sampleData);
+        AnimeAdapter adapter = new AnimeAdapter(this, currentEntries);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);  // Initialize the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set its layout manager
         recyclerView.setAdapter(adapter);                             // Attach the adapter
@@ -79,6 +88,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // For highlighting and displaying filtered data based on currently selected mode
+        LinearLayout toggleLayout = findViewById(R.id.toggle_layout);
+        List<Button> toggleButtons = new ArrayList<>();
+        for (int i = 0; i < toggleLayout.getChildCount(); i++) {
+            Button button = (Button) toggleLayout.getChildAt(i);
+            toggleButtons.add(button);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (Button item : toggleButtons) {
+                        item.setBackgroundColor(getResources().getColor(R.color.edit_status_btn));
+                        item.setActivated(false);
+                    }
+                    button.setActivated(true);
+                    button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
+                    currentType = button.getText().toString();
+                    currentEntries = filterListByType(currentType, sampleData);
+                    adapter.updateData(currentEntries);
+                }
+            });
+        }
+
+
         adapter.setOnItemClickListener(new AnimeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -93,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(detailIntent);
             }
         });
+    }
+
+    private List<Anime> filterListByType(String type, List<Anime> items) {
+        List<Anime> filteredList = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            Anime item = items.get(i);
+            if (item.getType().equals(type)) {
+                filteredList.add(item);
+            }
+        }
+        return filteredList;
     }
 }
 
