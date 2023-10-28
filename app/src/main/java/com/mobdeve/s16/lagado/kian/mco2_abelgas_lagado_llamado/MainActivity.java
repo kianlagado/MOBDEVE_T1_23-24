@@ -1,21 +1,16 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado.Anime;
-import com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado.AnimeAdapter;
 
 public class MainActivity extends AppCompatActivity {
     public static String TITLE_TAG = "TITLE";

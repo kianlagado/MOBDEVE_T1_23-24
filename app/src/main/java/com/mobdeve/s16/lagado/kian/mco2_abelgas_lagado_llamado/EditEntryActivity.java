@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditEntryActivity extends AppCompatActivity {
+    // TODO: delete entry not yet implemented
     public static String RATING_TAG = "RATING";
     public static String PROGRESS_TAG = "PROGRESS";
     public static String STATUS_TAG = "STATUS";
     public static String POS_TAG = "POS";
+    public static String ACTION_TAG = "ACTION";
 
     TextView entryTitle;
     ImageView entryImage;
@@ -38,6 +40,7 @@ public class EditEntryActivity extends AppCompatActivity {
     private String selectedRating;
     private String selectedStatus;
     private String newProgress;
+    private String selectedAction;
 
 
 
@@ -127,14 +130,29 @@ public class EditEntryActivity extends AppCompatActivity {
             }
         }
 
+        removeEntry = findViewById(R.id.remove_entry_button);
+        removeEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAction = "Remove";
+                Intent return_intent = new Intent();
+                return_intent.putExtra(ACTION_TAG, selectedAction);
+                return_intent.putExtra(POS_TAG, position);
+                setResult(Activity.RESULT_OK, return_intent);
+                finish();
+            }
+        });
+
         confirmBtn = findViewById(R.id.confirm_btn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedAction = "Confirm";
                 Intent return_intent = new Intent();
                 return_intent.putExtra(RATING_TAG, selectedRating);
                 return_intent.putExtra(PROGRESS_TAG, newProgress);
                 return_intent.putExtra(STATUS_TAG, selectedStatus);
+                return_intent.putExtra(ACTION_TAG, selectedAction);
                 return_intent.putExtra(POS_TAG, position);
                 setResult(Activity.RESULT_OK, return_intent);
                 finish();

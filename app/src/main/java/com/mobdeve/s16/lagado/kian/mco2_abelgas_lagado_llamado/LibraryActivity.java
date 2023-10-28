@@ -45,21 +45,29 @@ public class LibraryActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        // Getting the index of entry that was updated and the data that was updated
-                        String updated_rating = result.getData().getStringExtra(EditEntryActivity.RATING_TAG);
-                        String updated_progress = result.getData().getStringExtra(EditEntryActivity.PROGRESS_TAG);
-                        String updated_status = result.getData().getStringExtra(EditEntryActivity.STATUS_TAG);
+                        String action = result.getData().getStringExtra(EditEntryActivity.ACTION_TAG);
                         int itemIndex = result.getData().getIntExtra(EditEntryActivity.POS_TAG, 0);
+                        if (action.equals("Confirm")) {
+                            // Getting the index of entry that was updated and the data that was updated
+                            String updated_rating = result.getData().getStringExtra(EditEntryActivity.RATING_TAG);
+                            String updated_progress = result.getData().getStringExtra(EditEntryActivity.PROGRESS_TAG);
+                            String updated_status = result.getData().getStringExtra(EditEntryActivity.STATUS_TAG);
 
-                        // Updating the entry
-                        currentEntries.get(itemIndex).setUserRating(updated_rating);
-                        currentEntries.get(itemIndex).setUserProgress(updated_progress);
-                        currentEntries.get(itemIndex).setUserStatus(updated_status);
+                            // Updating the entry
+                            currentEntries.get(itemIndex).setUserRating(updated_rating);
+                            currentEntries.get(itemIndex).setUserProgress(updated_progress);
+                            currentEntries.get(itemIndex).setUserStatus(updated_status);
+                        }
+                        else if (action.equals("Remove")) {
+                            // Get title of removed entry and remove from dataset
+                            String removed_entry_title = currentEntries.get(itemIndex).getTitle();
+                            sampleEntries.removeIf(entry -> entry.getTitle().equals(removed_entry_title));
+                        }
 
+                        // Updating the dataset and refreshing recyclerview
                         currentEntries = filterListByStatus(currentStatus, currentType, sampleEntries);
                         entriesCount.setText(currentEntries.size() + " entries");
                         libraryAdapter.updateEntries(currentEntries);
-
                     }
                 }
             }
