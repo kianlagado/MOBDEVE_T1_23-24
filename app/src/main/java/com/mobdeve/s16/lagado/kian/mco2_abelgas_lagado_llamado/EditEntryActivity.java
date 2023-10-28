@@ -2,6 +2,7 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditEntryActivity extends AppCompatActivity {
+    public static String RATING_TAG = "RATING";
+    public static String PROGRESS_TAG = "PROGRESS";
+    public static String STATUS_TAG = "STATUS";
+    public static String POS_TAG = "POS";
 
     TextView entryTitle;
     ImageView entryImage;
@@ -19,8 +28,17 @@ public class EditEntryActivity extends AppCompatActivity {
     ImageButton removeEntry;
     Button watchingBtn;
     Button planBtn;
+    Button confirmBtn;
     Button cancelBtn;
     EditText editProgress;
+    LinearLayout ratingBtnLayout;
+    List<LinearLayout> statusLayouts;
+    List<Button> statusButtons;
+    List<Button> ratingButtons;
+    private String selectedRating;
+    private String selectedStatus;
+    private String newProgress;
+
 
 
     @Override
@@ -28,13 +46,20 @@ public class EditEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
-        Intent i = getIntent();
-        String title = i.getStringExtra(LibraryAdapter.TITLE_TAG);
-        Integer image = i.getIntExtra(LibraryAdapter.IMAGE_TAG, 0);
-        String status = i.getStringExtra(LibraryAdapter.USER_STATUS_TAG);
-        String userRating = i.getStringExtra(LibraryAdapter.USER_RATING_TAG);
-        String userProgress = i.getStringExtra(LibraryAdapter.USER_PROGRESS_TAG);
-        String entryType = i.getStringExtra(LibraryAdapter.TYPE_TAG);
+        Intent intent = getIntent();
+        String title = intent.getStringExtra(LibraryAdapter.TITLE_TAG);
+        Integer image = intent.getIntExtra(LibraryAdapter.IMAGE_TAG, 0);
+        String status = intent.getStringExtra(LibraryAdapter.USER_STATUS_TAG);
+        String userRating = intent.getStringExtra(LibraryAdapter.USER_RATING_TAG);
+        String userProgress = intent.getStringExtra(LibraryAdapter.USER_PROGRESS_TAG);
+        String entryType = intent.getStringExtra(LibraryAdapter.TYPE_TAG);
+        int position = intent.getIntExtra(LibraryAdapter.POS_TAG, 0);
+
+        // Default values
+        selectedRating = userRating;
+        selectedStatus = status;
+        newProgress = userProgress;
+
 
         entryTitle = findViewById(R.id.entry_title);
         entryTitle.setText(title);
@@ -48,12 +73,74 @@ public class EditEntryActivity extends AppCompatActivity {
         planBtn = findViewById(R.id.plan_btn);
         if (entryType.equals("Manga")) planBtn.setText("Plan to Read");
 
-        editProgress = findViewById(R.id.editProgress);
-        editProgress.setHint(userProgress);
-
         exitEdit = findViewById(R.id.exit_edit_button);
         removeEntry = findViewById(R.id.remove_entry_button);
         cancelBtn = findViewById(R.id.cancel_btn);
+
+        // Setting current progress as hint and obtaining new progress input
+        editProgress = findViewById(R.id.editProgress);
+        editProgress.setHint(userProgress);
+        newProgress = editProgress.getText().toString();
+
+        // For highlighting and getting the currently selected rating value
+        ratingBtnLayout = findViewById(R.id.rating_btns_layout);
+        ratingButtons = new ArrayList<Button>();
+        for (int i = 0; i < ratingBtnLayout.getChildCount(); i++) {
+            Button button = (Button) ratingBtnLayout.getChildAt(i);
+            ratingButtons.add(button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (Button item : ratingButtons) {
+                        item.setBackgroundColor(getResources().getColor(R.color.edit_entry_bg));
+                        item.setActivated(false);
+                    }
+                    button.setActivated(true);
+                    button.setBackgroundColor(getResources().getColor(R.color.edit_status_btn));
+                    selectedRating = button.getText().toString();
+                }
+            });
+
+        }
+
+        // For highlighting and getting currently selected status
+        statusLayouts = new ArrayList<LinearLayout>();
+        statusLayouts.add(findViewById(R.id.status_btns_layout));
+        statusLayouts.add(findViewById(R.id.status_btns_layout2));
+        statusButtons = new ArrayList<Button>();
+        for (int i = 0; i < statusLayouts.size(); i++) {
+            for (int j = 0; j < statusLayouts.get(i).getChildCount(); j++) {
+                Button button = (Button) statusLayouts.get(i).getChildAt(j);
+                statusButtons.add(button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (Button item : statusButtons) {
+                            item.setBackgroundColor(getResources().getColor(R.color.edit_status_btn));
+                            item.setActivated(false);
+                        }
+                        button.setActivated(true);
+                        button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
+                        selectedStatus = button.getText().toString();
+                    }
+                });
+            }
+        }
+
+        confirmBtn = findViewById(R.id.confirm_btn);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent return_intent = new Intent();
+                return_intent.putExtra(RATING_TAG, selectedRating);
+                return_intent.putExtra(PROGRESS_TAG, newProgress);
+                return_intent.putExtra(STATUS_TAG, selectedStatus);
+                return_intent.putExtra(POS_TAG, position);
+                setResult(Activity.RESULT_OK, return_intent);
+                finish();
+            }
+        });
+
 
         exitEdit.setOnClickListener(new View.OnClickListener() {
             @Override

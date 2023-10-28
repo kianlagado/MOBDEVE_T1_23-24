@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="edit_entry_bg">#DCDCDC</color>
+    <color name="edit_status_btn">#6E8D71</color>
+    <color name="selected_status_btn">#7CE1A1</color>
 </resources>

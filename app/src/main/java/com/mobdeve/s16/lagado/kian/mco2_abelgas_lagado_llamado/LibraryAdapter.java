@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     Context context;
     List<Anime> sampleEntries;
+    ActivityResultLauncher<Intent> launcher;
 
     public static String TITLE_TAG = "TITLE";
     public static String IMAGE_TAG = "IMAGE";
@@ -30,10 +32,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public static String USER_PROGRESS_TAG = "USER_PROGRESS";
     public static String USER_STATUS_TAG = "STATUS";
     public static String TYPE_TAG = "TYPE";
+    public static String POS_TAG = "POS";
 
-    public LibraryAdapter(LibraryActivity libraryActivity, List<Anime> sampleEntries) {
+    public LibraryAdapter(LibraryActivity libraryActivity, List<Anime> sampleEntries, ActivityResultLauncher<Intent> launcher) {
         this.context = libraryActivity;
         this.sampleEntries = sampleEntries;
+        this.launcher = launcher;
     }
 
     public void updateEntries(List<Anime> updatedEntries) {
@@ -65,6 +69,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         if (entryItem.getType() == "Anime") holder.entryTotal.setText("/Total eps");
         else if (entryItem.getType() == "Manga") holder.entryTotal.setText("/Total chs");
 
+        // Goes to detail activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,10 +84,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             }
         });
 
+        // Goes to edit entry activity
         holder.entryEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: edit entry layout
                 Intent editIntent = new Intent(context, EditEntryActivity.class);
                 editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
                 editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
@@ -90,7 +95,9 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                 editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
                 editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
                 editIntent.putExtra(TYPE_TAG, entryItem.getType());
-                context.startActivity(editIntent);
+                editIntent.putExtra(POS_TAG, holder.getAdapterPosition());
+                //context.startActivity(editIntent);
+                launcher.launch(editIntent);
             }
         });
     }

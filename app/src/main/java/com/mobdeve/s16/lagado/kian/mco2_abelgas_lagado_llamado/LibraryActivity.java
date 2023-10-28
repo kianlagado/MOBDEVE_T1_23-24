@@ -1,9 +1,14 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,10 +33,38 @@ public class LibraryActivity extends AppCompatActivity {
     Button watchingStatus;
     Button doneStatus;
     Button holdStatus;
+    List<Anime> sampleEntries;
     LibraryAdapter libraryAdapter;
     private String currentType;
     private List<Anime> currentEntries;
     private String currentStatus;
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Getting the index of entry that was updated and the data that was updated
+                        String updated_rating = result.getData().getStringExtra(EditEntryActivity.RATING_TAG);
+                        String updated_progress = result.getData().getStringExtra(EditEntryActivity.PROGRESS_TAG);
+                        String updated_status = result.getData().getStringExtra(EditEntryActivity.STATUS_TAG);
+                        int itemIndex = result.getData().getIntExtra(EditEntryActivity.POS_TAG, 0);
+
+                        // Updating the entry
+                        currentEntries.get(itemIndex).setUserRating(updated_rating);
+                        currentEntries.get(itemIndex).setUserProgress(updated_progress);
+                        currentEntries.get(itemIndex).setUserStatus(updated_status);
+
+                        currentEntries = filterListByStatus(currentStatus, currentType, sampleEntries);
+                        entriesCount.setText(currentEntries.size() + " entries");
+                        libraryAdapter.updateEntries(currentEntries);
+
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +83,7 @@ public class LibraryActivity extends AppCompatActivity {
         holdStatus = findViewById(R.id.hold_status);
 
         // Sample library entries
-        List<Anime> sampleEntries = new ArrayList<>();
+        sampleEntries = new ArrayList<>();
         sampleEntries.add(new Anime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
         sampleEntries.get(0).setUserStatus("Plan to Watch");
         sampleEntries.get(0).setDate("Oct 2006 - Jul 2007");
@@ -78,7 +111,7 @@ public class LibraryActivity extends AppCompatActivity {
         // Library adapter
         RecyclerView recyclerView = findViewById(R.id.library_recycler);  // Initialize the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set its layout manager
-        libraryAdapter = new LibraryAdapter(this, currentEntries);
+        libraryAdapter = new LibraryAdapter(this, currentEntries, launcher);
         recyclerView.setAdapter(libraryAdapter);                             // Attach the adapter
 
 
@@ -130,6 +163,7 @@ public class LibraryActivity extends AppCompatActivity {
         });
 
         //For filtering recyclerview based on watch status and entry type
+        // TODO: highlight currently selected status
         allStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

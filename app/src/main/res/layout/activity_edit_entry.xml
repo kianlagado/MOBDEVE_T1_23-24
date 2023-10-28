@@ -86,12 +86,13 @@
                 android:layout_height="72dp">
 
                 <LinearLayout
+                    android:id="@+id/rating_btns_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/rating_none_btn"
+                        android:id="@+id/rating_0_btn"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -271,6 +272,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/status_btns_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -298,6 +300,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/status_btns_layout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
