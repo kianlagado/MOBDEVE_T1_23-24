@@ -29,11 +29,11 @@ public class DetailActivity extends AppCompatActivity {
         String date = i.getStringExtra(MainActivity.YEAR_TAG);
         Integer image = i.getIntExtra(MainActivity.IMAGE_TAG, 0);
 
-        titleText = findViewById(R.id.tv_detail_title);
+        titleText = findViewById(R.id.entry_title);
         ratingText = findViewById(R.id.tv_detail_rating);
         descText = findViewById(R.id.tv_synopsis_content);
         dateText = findViewById(R.id.tv_airing_date);
-        itemImage = findViewById(R.id.iv_detail_image);
+        itemImage = findViewById(R.id.entry_image);
 
         titleText.setText(title);
         ratingText.setText("Rating: " + rating);
@@ -41,7 +41,7 @@ public class DetailActivity extends AppCompatActivity {
         dateText.setText(date);
         itemImage.setImageResource(image);
 
-        ImageButton backButton = findViewById(R.id.btn_exit_detail);
+        ImageButton backButton = findViewById(R.id.exit_edit_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton btnAddToLibrary = findViewById(R.id.btn_add_to_library);
+        ImageButton btnAddToLibrary = findViewById(R.id.remove_entry_button);
 
         // TODO: make button invisible if anime/manga is already in library
         btnAddToLibrary.setOnClickListener(new View.OnClickListener() {

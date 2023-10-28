@@ -1,9 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditEntryActivity">
+    android:background="#DCDCDC">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Sticky Header -->
+    <RelativeLayout
+        android:id="@+id/detail_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#A2A9AA"
+        android:padding="16dp">
+
+        <!-- Exit/Back Button -->
+        <ImageButton
+            android:id="@+id/exit_edit_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="@color/black" />
+
+        <!-- Anime/Manga Title -->
+        <TextView
+            android:id="@+id/entry_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Spy x Family"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Add to Library ImageButton -->
+        <ImageButton
+            android:id="@+id/remove_entry_button"
+            style="@android:style/Widget.DeviceDefault.ImageButton"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_trash"
+            android:tint="@color/black" />
+
+    </RelativeLayout>
+
+    <!-- Content Area inside a ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/detail_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Anime/Manga Image -->
+            <ImageView
+                android:id="@+id/entry_image"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/spyxfam" />
+
+            <TextView
+                android:id="@+id/rating_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Edit Rating"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/rating_none_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_1_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_2_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_3_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="3"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_4_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="4"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_5_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_6_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="6"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_7_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="7"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_8_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="8"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_9_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="9"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/rating_10_btn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="10"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/black" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/progress_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Edit Progress"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editProgress"
+                    style="@android:style/Widget.Material.EditText"
+                    android:layout_width="61dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="/ [total episode or chapter count here]"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/status_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Edit Status"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/watching_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6E8D71"
+                    android:text="Watching" />
+
+                <Button
+                    android:id="@+id/completed_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6E8D71"
+                    android:text="Completed" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/plan_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6E8D71"
+                    android:text="Plan to Watch" />
+
+                <Button
+                    android:id="@+id/hold_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6E8D71"
+                    android:text="On Hold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/confirm_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#80E16A"
+                    android:text="Confirm" />
+
+                <Button
+                    android:id="@+id/cancel_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#000000"
+                    android:text="Cancel" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

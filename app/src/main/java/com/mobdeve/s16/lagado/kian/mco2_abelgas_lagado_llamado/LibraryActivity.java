@@ -54,19 +54,19 @@ public class LibraryActivity extends AppCompatActivity {
         sampleEntries.add(new Anime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
         sampleEntries.get(0).setUserStatus("Plan to Watch");
         sampleEntries.get(0).setDate("Oct 2006 - Jul 2007");
-        sampleEntries.get(0).setUserProgress("0/25");
+        sampleEntries.get(0).setUserProgress("0");
         sampleEntries.get(0).setUserRating("-");
 
         sampleEntries.add(new Anime("Dr Stone", R.drawable.drstone, "Yay coca cola!", "9.1/10", "Anime"));
         sampleEntries.get(1).setUserStatus("Completed");
         sampleEntries.get(1).setDate("Jul 2019 - Dec 2019");
-        sampleEntries.get(1).setUserProgress("24/24");
+        sampleEntries.get(1).setUserProgress("24");
         sampleEntries.get(1).setUserRating("10");
 
         sampleEntries.add(new Anime("Oyasumi Punpun", R.drawable.punpun, "Free gallons of depresso espresso", "9.01/10", "Manga"));
         sampleEntries.get(2).setUserStatus("Reading");
         sampleEntries.get(2).setDate("Mar 2007 - Nov 2013");
-        sampleEntries.get(2).setUserProgress("42/147");
+        sampleEntries.get(2).setUserProgress("42");
         sampleEntries.get(2).setUserRating("1");
 
         // Default recyclerview settings

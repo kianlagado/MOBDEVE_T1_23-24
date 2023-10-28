@@ -26,6 +26,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public static String DESC_TAG = "DESC";
     public static String RATING_TAG = "RATING";
     public static String YEAR_TAG = "YEAR";
+    public static String USER_RATING_TAG = "USER_RATING";
+    public static String USER_PROGRESS_TAG = "USER_PROGRESS";
+    public static String USER_STATUS_TAG = "STATUS";
+    public static String TYPE_TAG = "TYPE";
 
     public LibraryAdapter(LibraryActivity libraryActivity, List<Anime> sampleEntries) {
         this.context = libraryActivity;
@@ -56,8 +60,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         holder.entryRate.setText(entryItem.getUserRating());
         holder.entryImage.setImageResource(entryItem.getThumbnail());
 
-        if (entryItem.getType() == "Anime") holder.entryProgress.setText(entryItem.getUserProgress() + " eps");
-        else if (entryItem.getType() == "Manga") holder.entryProgress.setText(entryItem.getUserProgress() + " chs");
+        holder.entryProgress.setText(entryItem.getUserProgress());
+        // TODO: Should obtain total eps/chapters from API call
+        if (entryItem.getType() == "Anime") holder.entryTotal.setText("/Total eps");
+        else if (entryItem.getType() == "Manga") holder.entryTotal.setText("/Total chs");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +83,14 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // TODO: edit entry layout
-                Intent i = new Intent(context, EditEntryActivity.class);
-                context.startActivity(i);
+                Intent editIntent = new Intent(context, EditEntryActivity.class);
+                editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
+                editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
+                editIntent.putExtra(USER_STATUS_TAG, entryItem.getUserStatus());
+                editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
+                editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
+                editIntent.putExtra(TYPE_TAG, entryItem.getType());
+                context.startActivity(editIntent);
             }
         });
     }
@@ -95,6 +107,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         TextView entryDate;
         TextView entryProgress;
         TextView entryRate;
+        TextView entryTotal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,6 +115,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             entryTitle = itemView.findViewById(R.id.item_title);
             entryDate = itemView.findViewById(R.id.item_date);
             entryProgress = itemView.findViewById(R.id.item_progress);
+            entryTotal = itemView.findViewById(R.id.progress_total);
             entryRate = itemView.findViewById(R.id.item_rating);
             entryEdit = itemView.findViewById(R.id.item_edit);
         }
