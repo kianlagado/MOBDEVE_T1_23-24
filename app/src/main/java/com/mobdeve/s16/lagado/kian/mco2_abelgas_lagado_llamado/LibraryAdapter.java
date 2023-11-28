@@ -18,7 +18,7 @@ import java.util.List;
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
     Context context;
-    List<Anime> sampleEntries;
+    List<TestAnime> sampleEntries;
     ActivityResultLauncher<Intent> launcher;
 
     public static String TITLE_TAG = "TITLE";
@@ -32,13 +32,13 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public static String TYPE_TAG = "TYPE";
     public static String POS_TAG = "POS";
 
-    public LibraryAdapter(LibraryActivity libraryActivity, List<Anime> sampleEntries, ActivityResultLauncher<Intent> launcher) {
+    public LibraryAdapter(LibraryActivity libraryActivity, List<TestAnime> sampleEntries, ActivityResultLauncher<Intent> launcher) {
         this.context = libraryActivity;
         this.sampleEntries = sampleEntries;
         this.launcher = launcher;
     }
 
-    public void updateEntries(List<Anime> updatedEntries) {
+    public void updateEntries(List<TestAnime> updatedEntries) {
         this.sampleEntries = updatedEntries;
         notifyDataSetChanged();
     }
@@ -55,7 +55,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Anime entryItem = sampleEntries.get(position);
+        final TestAnime entryItem = sampleEntries.get(position);
         holder.entryTitle.setText(entryItem.getTitle());
         holder.entryDate.setText(entryItem.getDate());
         holder.entryRate.setText(entryItem.getUserRating());

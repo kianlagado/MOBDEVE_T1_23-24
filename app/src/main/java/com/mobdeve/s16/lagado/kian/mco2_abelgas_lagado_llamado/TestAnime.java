@@ -1,5 +1,17 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
-public class Anime {
+
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class TestAnime {
     private String title;
     private int thumbnail; // Assuming you're using drawable resources for images
     private String synopsis;
@@ -11,7 +23,7 @@ public class Anime {
     private String type;
 
 
-    public Anime(String title, int thumbnail, String synopsis, String rating, String type) {
+    public TestAnime(String title, int thumbnail, String synopsis, String rating, String type) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.synopsis = synopsis;
@@ -53,4 +65,5 @@ public class Anime {
     public String getUserProgress() {return userProgress;}
     public String getUserRating() {return userRating;}
     public String getType() {return type;}
+
 }

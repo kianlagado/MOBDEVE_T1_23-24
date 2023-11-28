@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder> {
 
-    private List<Anime> animeList;
+    private List<TestAnime> animeList;
     private Context context;
 
     private OnItemClickListener Listener;
@@ -28,12 +28,12 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
     }
 
     // Constructor
-    public AnimeAdapter(Context context, List<Anime> animeList) {
+    public AnimeAdapter(Context context, List<TestAnime> animeList) {
         this.context = context;
         this.animeList = animeList;
     }
 
-    public void updateData(List<Anime> updatedData) {
+    public void updateData(List<TestAnime> updatedData) {
         this.animeList = updatedData;
         notifyDataSetChanged();
     }
@@ -77,7 +77,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
 
     @Override
     public void onBindViewHolder(@NonNull AnimeViewHolder holder, int position) {
-        Anime anime = animeList.get(position);
+        TestAnime anime = animeList.get(position);
         holder.thumbnail.setImageResource(anime.getThumbnail());
         holder.title.setText(anime.getTitle());
         holder.synopsis.setText(anime.getSynopsis());

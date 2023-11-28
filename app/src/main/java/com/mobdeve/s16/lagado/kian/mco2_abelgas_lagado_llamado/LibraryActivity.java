@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,10 @@ public class LibraryActivity extends AppCompatActivity {
     Button watchingStatus;
     Button doneStatus;
     Button holdStatus;
-    List<Anime> sampleEntries;
+    List<TestAnime> sampleEntries;
     LibraryAdapter libraryAdapter;
     private String currentType;
-    private List<Anime> currentEntries;
+    private List<TestAnime> currentEntries;
     private String currentStatus;
 
     // For displaying changes made in editactivity on the library recyclerview
@@ -92,20 +93,21 @@ public class LibraryActivity extends AppCompatActivity {
         holdStatus = findViewById(R.id.hold_status);
 
         // Sample library entries
+        // TODO: this should be entries from SQLite
         sampleEntries = new ArrayList<>();
-        sampleEntries.add(new Anime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
+        sampleEntries.add(new TestAnime("Code Geass", R.drawable.codegeass, "Lelouch go skrt skrt brrrrt!", "10/10", "Anime"));
         sampleEntries.get(0).setUserStatus("Plan to Watch");
         sampleEntries.get(0).setDate("Oct 2006 - Jul 2007");
         sampleEntries.get(0).setUserProgress("0");
         sampleEntries.get(0).setUserRating("-");
 
-        sampleEntries.add(new Anime("Dr Stone", R.drawable.drstone, "Yay coca cola!", "9.1/10", "Anime"));
+        sampleEntries.add(new TestAnime("Dr Stone", R.drawable.drstone, "Yay coca cola!", "9.1/10", "Anime"));
         sampleEntries.get(1).setUserStatus("Completed");
         sampleEntries.get(1).setDate("Jul 2019 - Dec 2019");
         sampleEntries.get(1).setUserProgress("24");
         sampleEntries.get(1).setUserRating("10");
 
-        sampleEntries.add(new Anime("Oyasumi Punpun", R.drawable.punpun, "Free gallons of depresso espresso", "9.01/10", "Manga"));
+        sampleEntries.add(new TestAnime("Oyasumi Punpun", R.drawable.punpun, "Free gallons of depresso espresso", "9.01/10", "Manga"));
         sampleEntries.get(2).setUserStatus("Reading");
         sampleEntries.get(2).setDate("Mar 2007 - Nov 2013");
         sampleEntries.get(2).setUserProgress("42");
@@ -231,10 +233,10 @@ public class LibraryActivity extends AppCompatActivity {
 
     }
 
-    private List<Anime> filterListByStatus(String status, String type, List<Anime> entries) {
-        List<Anime> filteredList = new ArrayList<>();
+    private List<TestAnime> filterListByStatus(String status, String type, List<TestAnime> entries) {
+        List<TestAnime> filteredList = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
-            Anime item = entries.get(i);
+            TestAnime item = entries.get(i);
             if (item.getType().equals(type)) {
                 if (item.getUserStatus().equals(status) || "All".equals(status)) {
                     filteredList.add(item);
