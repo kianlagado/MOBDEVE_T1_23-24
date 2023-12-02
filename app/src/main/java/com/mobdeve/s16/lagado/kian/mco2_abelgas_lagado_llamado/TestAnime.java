@@ -1,69 +1,50 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class TestAnime {
+    private int mal_id;
+    private String imageUrl; // Assuming the main image URL
     private String title;
-    private int thumbnail; // Assuming you're using drawable resources for images
+    private int episodes;
+    private String status;
+    private double score;
     private String synopsis;
-    private String rating;
-    private String userRating;
-    private String userStatus;
-    private String userProgress;
-    private String date;
-    private String type;
+    private int year; // Assuming year of release or airing
+    private String studios; // This could be a list or a comma-separated string
+    private String genres; // Similarly, a list or a comma-separated string
 
-
-    public TestAnime(String title, int thumbnail, String synopsis, String rating, String type) {
+    // Constructor
+    public TestAnime(int mal_id, String imageUrl, String title, int episodes, String status,
+                 double score, String synopsis, int year, String studios, String genres) {
+        this.mal_id = mal_id;
+        this.imageUrl = imageUrl;
         this.title = title;
-        this.thumbnail = thumbnail;
+        this.episodes = episodes;
+        this.status = status;
+        this.score = score;
         this.synopsis = synopsis;
-        this.rating = rating;
-        this.type = type;
-    }
-    public void setUserStatus(String s) {
-        this.userStatus = s;
+        this.studios = studios;
+        this.genres = genres;
     }
 
-    public void setUserProgress(String s) {
-        this.userProgress = s;
-    }
+    // Getters
+    public int getMal_id() { return mal_id; }
+    public String getImageUrl() { return imageUrl; }
+    public String getTitle() { return title; }
+    public int getEpisodes() { return episodes; }
+    public String getStatus() { return status; }
+    public double getScore() { return score; }
+    public String getSynopsis() { return synopsis; }
+    public String getStudios() { return studios; }
+    public String getGenres() { return genres; }
 
-    public void setDate(String s) {
-        this.date = s;
-    }
-    public void setUserRating(String s) {
-        this.userRating = s;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getSynopsis() {
-        return synopsis;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-    public String getUserStatus() {return userStatus;}
-    public String getDate() {return date;}
-    public String getUserProgress() {return userProgress;}
-    public String getUserRating() {return userRating;}
-    public String getType() {return type;}
-
+    // Setters
+    public void setMal_id(int mal_id) { this.mal_id = mal_id; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setTitle(String title) { this.title = title; }
+    public void setEpisodes(int episodes) { this.episodes = episodes; }
+    public void setStatus(String status) { this.status = status; }
+    public void setScore(double score) { this.score = score; }
+    public void setSynopsis(String synopsis) { this.synopsis = synopsis; }
+    public void setStudios(String studios) { this.studios = studios; }
+    public void setGenres(String genres) { this.genres = genres; }
 }
