@@ -34,13 +34,12 @@ public class DataService<T> {
 
 
     // TODO: manga isnt working for some reason
-    public void displayTop(String currentType, VolleyResponseListener volleyResponseListener) {
-
+    public void displayTop(String currentType, int currentPage, VolleyResponseListener volleyResponseListener) {
         String url = "";
         if (currentType.equals("Anime"))
-            url = QUERY_FOR_TOP_ANIME;
+            url = QUERY_FOR_TOP_ANIME + "?page=" + currentPage;
         else if (currentType.equals("Manga"))
-            url = QUERY_FOR_TOP_MANGA;
+            url = QUERY_FOR_TOP_MANGA + "?page=" + currentPage;
 
         //Toast.makeText(context, url, Toast.LENGTH_LONG).show();
 
@@ -128,6 +127,8 @@ public class DataService<T> {
                     e.printStackTrace();
                 }
 
+
+
                 if (currentType.equals("Anime")) volleyResponseListener.onResponse(animeList);
                 if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaList);
 
@@ -139,7 +140,6 @@ public class DataService<T> {
                 volleyResponseListener.onError("Something went wrong!");
             }
         });
-
         DataSingleton.getInstance(context).addToRequestQueue(request);
     }
 

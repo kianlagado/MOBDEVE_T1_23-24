@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso; // Ensure Picasso library is included in your project
@@ -38,9 +39,10 @@ public class AnimeAdapter<T> extends RecyclerView.Adapter<AnimeAdapter.AnimeView
         this.type = type;
     }
 
-    public void updateData(List<T> updatedData) {
+    public void updateData(List<T> updatedData, int startIndex) {
         this.dataList = updatedData;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        notifyItemRangeInserted(startIndex, updatedData.size());
     }
 
     // ViewHolder class
