@@ -12,16 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataService {
 
     public static final String QUERY_FOR_TOP_ANIME = "https://api.jikan.moe/v4/top/anime";
     Context context;
-    ArrayList<String> titles, synopsies, ratings;
-    ArrayList<ArrayList<String>> dataList;
+    ArrayList<TestAnime> dataList;
 
     public DataService(Context context) {
         this.context = context;
@@ -29,15 +26,12 @@ public class DataService {
 
     public interface VolleyResponseListener {
         void onError(String message);
-        void onResponse(ArrayList<ArrayList<String>> response);
+        void onResponse(ArrayList<TestAnime> response);
     }
 
     // TODO: WIP
-    public void getTopAnime(VolleyResponseListener volleyResponseListener) {
+    public void displayTopAnime(VolleyResponseListener volleyResponseListener) {
         dataList = new ArrayList<>();
-        titles = new ArrayList<>();
-        synopsies = new ArrayList<>();
-        ratings = new ArrayList<>();
 
         String url = QUERY_FOR_TOP_ANIME;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -50,20 +44,43 @@ public class DataService {
 
                     for (int i=0; i < data.length(); i++) {
                         JSONObject anime = data.getJSONObject(i);
-                        //String image = anime.getJSONObject("images").getJSONObject("jpg").getString("image_url");
-                        //ID = anime.getString("mal_id");
-                        titles.add(anime.getString("title"));
-                        synopsies.add(anime.getString("synopsis"));
-                        ratings.add(anime.getString("score") + "/10");
+                        String imageUrl = anime.getJSONObject("images").getJSONObject("jpg").getString("image_url");
+                        int ID = anime.getInt("mal_id");
+                        String title = anime.getString("title");
+                        int episodes = anime.getInt("episodes");
+                        String status = anime.getString("status");
+                        String score = anime.getString("score") + "/10";
+                        String synopsis = anime.getString("synopsis");
+                        String date = anime.getJSONObject("aired").getString("string");
+
+                        String studios = "";
+                        JSONArray studiosArr = anime.getJSONArray("studios");
+                        for (int j = 0; j < studiosArr.length(); j++) {
+                            JSONObject studiosObj = studiosArr.getJSONObject(j);
+                            studios += studiosObj.getString("name");
+                            if (j+1 != studiosArr.length()) {
+                                studios += ", ";
+                            }
+                        }
+
+                        String genres = "";
+                        JSONArray genresArr = anime.getJSONArray("studios");
+                        for (int j = 0; j < genresArr.length(); j++) {
+                            JSONObject genresObj = genresArr.getJSONObject(j);
+                            genres += genresObj.getString("name");
+                            if (j+1 != genresArr.length()) {
+                                genres += ", ";
+                            }
+                        }
+
+
+                        TestAnime animeObject = new TestAnime(ID, imageUrl, title, episodes, status, score, synopsis, date, studios, genres);
+                        dataList.add(animeObject);
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                dataList.add(titles);
-                dataList.add(synopsies);
-                dataList.add(ratings);
 
                 volleyResponseListener.onResponse(dataList);
 

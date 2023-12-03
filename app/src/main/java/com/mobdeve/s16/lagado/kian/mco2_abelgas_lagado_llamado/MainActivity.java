@@ -36,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
     public static String RATING_TAG = "RATING";
     public static String YEAR_TAG = "YEAR";
     private String currentType;
-    private List<TestAnime> sampleData;
     private List<TestAnime> currentEntries;
-    private ArrayList<ArrayList<String>> receivedData;
+    private ArrayList<TestAnime> receivedData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +46,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         receivedData = new ArrayList<>();
-        sampleData = new ArrayList<TestAnime>();
         //RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         DataService animaExpress = new DataService(MainActivity.this);
 
-        animaExpress.getTopAnime(new DataService.VolleyResponseListener() {
+        animaExpress.displayTopAnime(new DataService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 Toast.makeText(MainActivity.this, "Failed to obtain Top Anime", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponse(ArrayList<ArrayList<String>> response) {
-                receivedData.add(response.get(0));
-                receivedData.add(response.get(1));
-                receivedData.add(response.get(2));
-
-                for (int i=0; i<receivedData.get(0).size(); i++) {
-                    sampleData.add(new TestAnime((String) receivedData.get(0).get(i), R.drawable.codegeass, (String) receivedData.get(1).get(i), (String) receivedData.get(2).get(i), "Anime"));
-                    sampleData.get(i).setDate("Jan 2001 - Dec 2002");
-                }
+            public void onResponse(ArrayList<TestAnime> response) {
+                receivedData = response;
 
                 // Default settings
                 currentType = "Anime";
-                currentEntries = filterListByType(currentType, sampleData);
 
                 // Setting the adapter
-                AnimeAdapter adapter = new AnimeAdapter(MainActivity.this, currentEntries);
+                AnimeAdapter adapter = new AnimeAdapter(MainActivity.this, receivedData);
                 RecyclerView recyclerView = findViewById(R.id.recycler_view);  // Initialize the RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this)); // Set its layout manager
                 recyclerView.setAdapter(adapter);                             // Attach the adapter
@@ -96,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                             button.setActivated(true);
                             button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
                             currentType = button.getText().toString();
-                            currentEntries = filterListByType(currentType, sampleData);
+                            //currentEntries = filterListByType(currentType, sampleData);
                             adapter.updateData(currentEntries);
                         }
                     });
@@ -109,11 +99,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
                         // If needed, pass extra data to the DetailActivity using putExtra
                         // TODO: might not need these extras in next phase since we just do API calls
-                        detailIntent.putExtra(TITLE_TAG, sampleData.get(position).getTitle());
-                        detailIntent.putExtra(IMAGE_TAG, sampleData.get(position).getThumbnail());
-                        detailIntent.putExtra(DESC_TAG, sampleData.get(position).getSynopsis());
-                        detailIntent.putExtra(RATING_TAG, sampleData.get(position).getRating());
-                        detailIntent.putExtra(YEAR_TAG, sampleData.get(position).getDate());
+                        detailIntent.putExtra(TITLE_TAG, receivedData.get(position).getTitle());
+                        detailIntent.putExtra(IMAGE_TAG, receivedData.get(position).getImageUrl());
+                        detailIntent.putExtra(DESC_TAG, receivedData.get(position).getSynopsis());
+                        detailIntent.putExtra(RATING_TAG, receivedData.get(position).getScore());
+                        detailIntent.putExtra(YEAR_TAG, receivedData.get(position).getDate());
                         startActivity(detailIntent);
                     }
                 });
@@ -162,15 +152,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private List<TestAnime> filterListByType(String type, List<TestAnime> items) {
-        List<TestAnime> filteredList = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            TestAnime item = items.get(i);
-            if (item.getType().equals(type)) {
-                filteredList.add(item);
-            }
-        }
-        return filteredList;
-    }
+//    private List<TestAnime> filterAnime(List<TestAnime> items) {
+//        List<TestAnime> filteredList = new ArrayList<>();
+//        for (int i = 0; i < items.size(); i++) {
+//            TestAnime item = items.get(i);
+//            if (item.getType().equals(type)) {
+//                filteredList.add(item);
+//            }
+//        }
+//        return filteredList;
+//    }
 }
 

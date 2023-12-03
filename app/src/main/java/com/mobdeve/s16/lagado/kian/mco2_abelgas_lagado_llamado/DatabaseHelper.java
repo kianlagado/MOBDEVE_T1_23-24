@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ANIME_STATUS = "status";
     private static final String COLUMN_ANIME_SCORE = "score";
     private static final String COLUMN_ANIME_SYNOPSIS = "synopsis";
-    private static final String COLUMN_ANIME_YEAR = "year";
+    private static final String COLUMN_ANIME_DATE = "date";
     private static final String COLUMN_ANIME_STUDIOS = "studios";
     private static final String COLUMN_ANIME_GENRES = "genres";
 
@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ANIME_STATUS + " TEXT,"
                 + COLUMN_ANIME_SCORE + " REAL,"
                 + COLUMN_ANIME_SYNOPSIS + " TEXT,"
-                + COLUMN_ANIME_YEAR + " INTEGER,"
+                + COLUMN_ANIME_DATE + " TEXT,"
                 + COLUMN_ANIME_STUDIOS + " TEXT,"
                 + COLUMN_ANIME_GENRES + " TEXT"
                 + ")";
@@ -122,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_ANIME, new String[] { COLUMN_ANIME_ID, COLUMN_ANIME_IMAGE_URL, COLUMN_ANIME_TITLE,
                         COLUMN_ANIME_EPISODES, COLUMN_ANIME_STATUS, COLUMN_ANIME_SCORE,
-                        COLUMN_ANIME_SYNOPSIS, COLUMN_ANIME_YEAR, COLUMN_ANIME_STUDIOS, COLUMN_ANIME_GENRES },
+                        COLUMN_ANIME_SYNOPSIS, COLUMN_ANIME_DATE, COLUMN_ANIME_STUDIOS, COLUMN_ANIME_GENRES },
                 COLUMN_ANIME_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             @SuppressLint("Range") TestAnime anime = new TestAnime(cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_ID)),
@@ -130,9 +130,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_TITLE)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_EPISODES)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_STATUS)),
-                    cursor.getDouble(cursor.getColumnIndex(COLUMN_ANIME_SCORE)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_SCORE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_SYNOPSIS)),
-                    cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_YEAR)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_DATE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_STUDIOS)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_GENRES)));
 

@@ -57,14 +57,14 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final TestAnime entryItem = sampleEntries.get(position);
         holder.entryTitle.setText(entryItem.getTitle());
-        holder.entryDate.setText(entryItem.getDate());
-        holder.entryRate.setText(entryItem.getUserRating());
-        holder.entryImage.setImageResource(entryItem.getThumbnail());
-
-        holder.entryProgress.setText(entryItem.getUserProgress());
+//        holder.entryDate.setText(entryItem.getDate());
+//        holder.entryRate.setText(entryItem.getUserRating());
+//        holder.entryImage.setImageResource(entryItem.getThumbnail());
+//
+//        holder.entryProgress.setText(entryItem.getUserProgress());
         // TODO: Should obtain total eps/chapters from API call
-        if (entryItem.getType().equals("Anime")) holder.entryTotal.setText("/Total eps");
-        else if (entryItem.getType().equals("Manga")) holder.entryTotal.setText("/Total chs");
+//        if (entryItem.getType().equals("Anime")) holder.entryTotal.setText("/Total eps");
+//        else if (entryItem.getType().equals("Manga")) holder.entryTotal.setText("/Total chs");
 
         // Goes to detail activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +72,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             public void onClick(View v) {
                 Intent i = new Intent(context, DetailActivity.class);
                 // TODO: I think these should be converted to API calls in next phase
-                i.putExtra(TITLE_TAG, entryItem.getTitle());
-                i.putExtra(IMAGE_TAG, entryItem.getThumbnail());
-                i.putExtra(DESC_TAG, entryItem.getSynopsis());
-                i.putExtra(RATING_TAG, entryItem.getRating());
-                i.putExtra(YEAR_TAG, entryItem.getDate());
+//                i.putExtra(TITLE_TAG, entryItem.getTitle());
+//                i.putExtra(IMAGE_TAG, entryItem.getThumbnail());
+//                i.putExtra(DESC_TAG, entryItem.getSynopsis());
+//                i.putExtra(RATING_TAG, entryItem.getRating());
+//                i.putExtra(YEAR_TAG, entryItem.getDate());
                 context.startActivity(i);
             }
         });
@@ -86,12 +86,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent editIntent = new Intent(context, EditEntryActivity.class);
-                editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
-                editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
-                editIntent.putExtra(USER_STATUS_TAG, entryItem.getUserStatus());
-                editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
-                editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
-                editIntent.putExtra(TYPE_TAG, entryItem.getType());
+//                editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
+//                editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
+//                editIntent.putExtra(USER_STATUS_TAG, entryItem.getUserStatus());
+//                editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
+//                editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
+//                editIntent.putExtra(TYPE_TAG, entryItem.getType());
                 editIntent.putExtra(POS_TAG, holder.getAdapterPosition());
                 //context.startActivity(editIntent);
                 launcher.launch(editIntent);
