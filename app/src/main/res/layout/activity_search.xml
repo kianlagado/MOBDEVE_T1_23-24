@@ -31,7 +31,7 @@
 
         <!-- SearchView -->
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
+            android:id="@+id/searchAnime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -39,7 +39,8 @@
             android:layout_toEndOf="@+id/btn_close_search"
             android:background="#5E758D"
             android:queryHint="Search for anime or manga"
-            app:iconifiedByDefault="false" />
+            app:iconifiedByDefault="false"
+            />
 
     </RelativeLayout>
 

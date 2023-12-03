@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
@@ -33,9 +35,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Search currentItem = searchResults.get(position);
-        holder.search_thumbnail.setImageResource(currentItem.getThumbnail());
         holder.search_title.setText(currentItem.getTitle());
         holder.search_rating.setText(currentItem.getRating());
+
+        Picasso.get()
+                .load(currentItem.getThumbnailUrl())
+                .into(holder.search_thumbnail);
     }
 
     @Override

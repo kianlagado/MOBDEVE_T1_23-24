@@ -1,18 +1,20 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
+import android.widget.ImageView;
+
 public class Search {
     private String title;
-    private int thumbnail; // Assuming you're using drawable resources for images
+    private String thumbnail_url;
     private String rating;
 
-    public Search(int thumbnail, String title, String rating) {
+    public Search(String thumbnail, String title, String rating) {
         this.title = title;
-        this.thumbnail = thumbnail;
+        this.thumbnail_url = thumbnail;
         this.rating = rating;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
+    public String getThumbnailUrl() {
+        return thumbnail_url;
     }
 
     public String getTitle() {
