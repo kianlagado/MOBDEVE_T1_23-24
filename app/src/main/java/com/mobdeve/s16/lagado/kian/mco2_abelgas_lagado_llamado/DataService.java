@@ -64,7 +64,7 @@ public class DataService {
                         }
 
                         String genres = "";
-                        JSONArray genresArr = anime.getJSONArray("studios");
+                        JSONArray genresArr = anime.getJSONArray("genres");
                         for (int j = 0; j < genresArr.length(); j++) {
                             JSONObject genresObj = genresArr.getJSONObject(j);
                             genres += genresObj.getString("name");

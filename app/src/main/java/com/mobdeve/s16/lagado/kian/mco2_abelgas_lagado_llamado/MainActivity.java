@@ -34,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
     public static String IMAGE_TAG = "IMAGE";
     public static String DESC_TAG = "DESC";
     public static String RATING_TAG = "RATING";
-    public static String YEAR_TAG = "YEAR";
+    public static String DATE_TAG = "DATE";
+    public static String STATUS_TAG = "STATUS";
+    public static String GENRES_TAG = "GENRES";
+    public static String STUDIOS_TAG = "STUDIOS";
+    public static String EPISODES_TAG = "EPISODES";
     private String currentType;
-    private List<TestAnime> currentEntries;
     private ArrayList<TestAnime> receivedData;
 
     @Override
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
                             currentType = button.getText().toString();
                             //currentEntries = filterListByType(currentType, sampleData);
-                            adapter.updateData(currentEntries);
+                            adapter.updateData(receivedData);
                         }
                     });
                 }
@@ -98,12 +101,16 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(int position) {
                         Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
                         // If needed, pass extra data to the DetailActivity using putExtra
-                        // TODO: might not need these extras in next phase since we just do API calls
-                        detailIntent.putExtra(TITLE_TAG, receivedData.get(position).getTitle());
-                        detailIntent.putExtra(IMAGE_TAG, receivedData.get(position).getImageUrl());
-                        detailIntent.putExtra(DESC_TAG, receivedData.get(position).getSynopsis());
-                        detailIntent.putExtra(RATING_TAG, receivedData.get(position).getScore());
-                        detailIntent.putExtra(YEAR_TAG, receivedData.get(position).getDate());
+                        TestAnime currAnime = receivedData.get(position);
+                        detailIntent.putExtra(TITLE_TAG, currAnime.getTitle());
+                        detailIntent.putExtra(IMAGE_TAG, currAnime.getImageUrl());
+                        detailIntent.putExtra(RATING_TAG, currAnime.getScore());
+                        detailIntent.putExtra(DESC_TAG, currAnime.getSynopsis());
+                        detailIntent.putExtra(GENRES_TAG, currAnime.getGenres());
+                        detailIntent.putExtra(EPISODES_TAG, currAnime.getEpisodes());
+                        detailIntent.putExtra(DATE_TAG, currAnime.getDate());
+                        detailIntent.putExtra(STUDIOS_TAG, currAnime.getStudios());
+                        detailIntent.putExtra(STATUS_TAG, currAnime.getStatus());
                         startActivity(detailIntent);
                     }
                 });

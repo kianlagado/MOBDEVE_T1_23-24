@@ -9,13 +9,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView titleText;
+    ImageView itemImage;
     TextView ratingText;
     TextView descText;
+    TextView genreText;
+    TextView epsText;
     TextView dateText;
-    ImageView itemImage;
+    TextView studiosText;
+    TextView statusText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,22 +31,38 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         String title = i.getStringExtra(MainActivity.TITLE_TAG);
+        String image = i.getStringExtra(MainActivity.IMAGE_TAG);
         String rating = i.getStringExtra(MainActivity.RATING_TAG);
         String desc = i.getStringExtra(MainActivity.DESC_TAG);
-        String date = i.getStringExtra(MainActivity.YEAR_TAG);
-        Integer image = i.getIntExtra(MainActivity.IMAGE_TAG, 0);
+        String genres = i.getStringExtra(MainActivity.GENRES_TAG);
+        int episodes = i.getIntExtra(MainActivity.EPISODES_TAG, 0);
+        String date = i.getStringExtra(MainActivity.DATE_TAG);
+        String studios = i.getStringExtra(MainActivity.STUDIOS_TAG);
+        String status = i.getStringExtra(MainActivity.STATUS_TAG);
+
 
         titleText = findViewById(R.id.entry_title);
+        itemImage = findViewById(R.id.entry_image);
         ratingText = findViewById(R.id.tv_detail_rating);
         descText = findViewById(R.id.tv_synopsis_content);
+        genreText = findViewById(R.id.tv_genres);
+        epsText = findViewById(R.id.tv_episodes);
         dateText = findViewById(R.id.tv_airing_date);
-        itemImage = findViewById(R.id.entry_image);
+        studiosText = findViewById(R.id.tv_studio);
+        statusText = findViewById(R.id.tv_status);
+
 
         titleText.setText(title);
+        Picasso.get().load(image).into(itemImage); // Use Picasso to load the image from the URL
         ratingText.setText("Rating: " + rating);
         descText.setText(desc);
+        genreText.setText(genres);
+        epsText.setText(String.valueOf(episodes));
         dateText.setText(date);
-        itemImage.setImageResource(image);
+        studiosText.setText(studios);
+        statusText.setText(status);
+
+
 
         ImageButton backButton = findViewById(R.id.exit_edit_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +85,7 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         /*
         Intent intent = getIntent();
         if (intent != null) {
