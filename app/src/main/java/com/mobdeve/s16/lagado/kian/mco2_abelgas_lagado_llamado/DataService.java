@@ -14,57 +14,59 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class DataService {
+public class DataService<T> {
 
     public static final String QUERY_FOR_TOP_ANIME = "https://api.jikan.moe/v4/top/anime";
+    public static final String QUERY_FOR_TOP_MANGA = "https://api.jikan.moe/v4/top/manga";
     Context context;
-    ArrayList<TestAnime> dataList;
+
+    ArrayList<TestAnime> animeList;
+    ArrayList<Manga> mangaList;
 
     public DataService(Context context) {
         this.context = context;
     }
 
-    public interface VolleyResponseListener {
+    public interface VolleyResponseListener<T> {
         void onError(String message);
-        void onResponse(ArrayList<TestAnime> response);
+        void onResponse(ArrayList<T> response);
     }
 
-    // TODO: WIP
-    public void displayTopAnime(VolleyResponseListener volleyResponseListener) {
-        dataList = new ArrayList<>();
 
-        String url = QUERY_FOR_TOP_ANIME;
+    // TODO: manga isnt working for some reason
+    public void displayTop(String currentType, VolleyResponseListener volleyResponseListener) {
+
+        animeList = new ArrayList<>();
+        mangaList = new ArrayList<>();
+
+        String url = "";
+        if (currentType.equals("Anime"))
+            url = QUERY_FOR_TOP_ANIME;
+        else if (currentType.equals("Manga"))
+            url = QUERY_FOR_TOP_MANGA;
+
+        Toast.makeText(context, url, Toast.LENGTH_LONG).show();
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
-                //String ID = "";
                 try {
-                    JSONArray data = response.getJSONArray("data");
+                    JSONArray entries = response.getJSONArray("data");
 
-                    for (int i=0; i < data.length(); i++) {
-                        JSONObject anime = data.getJSONObject(i);
-                        String imageUrl = anime.getJSONObject("images").getJSONObject("jpg").getString("image_url");
-                        int ID = anime.getInt("mal_id");
-                        String title = anime.getString("title");
-                        int episodes = anime.getInt("episodes");
-                        String status = anime.getString("status");
-                        String score = anime.getString("score") + "/10";
-                        String synopsis = anime.getString("synopsis");
-                        String date = anime.getJSONObject("aired").getString("string");
+                    for (int i=0; i < entries.length(); i++) {
+                        JSONObject entry = entries.getJSONObject(i);
 
-                        String studios = "";
-                        JSONArray studiosArr = anime.getJSONArray("studios");
-                        for (int j = 0; j < studiosArr.length(); j++) {
-                            JSONObject studiosObj = studiosArr.getJSONObject(j);
-                            studios += studiosObj.getString("name");
-                            if (j+1 != studiosArr.length()) {
-                                studios += ", ";
-                            }
-                        }
+                        // base info
+                        String imageUrl = entry.getJSONObject("images").getJSONObject("jpg").getString("image_url");
+                        int ID = entry.getInt("mal_id");
+                        String title = entry.getString("title");
+                        String status = entry.getString("status");
+                        String score = entry.getString("score") + "/10";
+                        String synopsis = entry.getString("synopsis");
 
                         String genres = "";
-                        JSONArray genresArr = anime.getJSONArray("genres");
+                        JSONArray genresArr = entry.getJSONArray("genres");
                         for (int j = 0; j < genresArr.length(); j++) {
                             JSONObject genresObj = genresArr.getJSONObject(j);
                             genres += genresObj.getString("name");
@@ -73,16 +75,51 @@ public class DataService {
                             }
                         }
 
+                        int episodes = 0;
+                        String date = "";
+                        String studios = "";
+                        // anime info
+                        if (currentType.equals("Anime")) {
+                            episodes = entry.getInt("episodes");
+                            date = entry.getJSONObject("aired").getString("string");
+                            JSONArray studiosArr = entry.getJSONArray("studios");
+                            for (int j = 0; j < studiosArr.length(); j++) {
+                                JSONObject studiosObj = studiosArr.getJSONObject(j);
+                                studios += studiosObj.getString("name");
+                                if (j + 1 != studiosArr.length()) {
+                                    studios += ", ";
+                                }
+                            }
 
-                        TestAnime animeObject = new TestAnime(ID, imageUrl, title, episodes, status, score, synopsis, date, studios, genres);
-                        dataList.add(animeObject);
+                            TestAnime animeObject = new TestAnime(ID, imageUrl, title, episodes, status, score, synopsis, date, studios, genres);
+                            animeList.add(animeObject);
+                        }
+
+                        int chapters = 0;
+                        String authors = "";
+                        if (currentType.equals("Manga")) { // manga info
+                            chapters = entry.getInt("chapters");
+                            date = entry.getJSONObject("published").getString("string");
+                            JSONArray authorsArr = entry.getJSONArray("authors");
+                            for (int j = 0; j < authorsArr.length(); j++) {
+                                JSONObject studiosObj = authorsArr.getJSONObject(j);
+                                authors += studiosObj.getString("name");
+                                if (j + 1 != authorsArr.length()) {
+                                    authors += ", ";
+                                }
+                            }
+
+                            Manga mangaObject = new Manga(ID, imageUrl, title, chapters, status, score, synopsis, date, authors, genres);
+                            mangaList.add(mangaObject);
+                        }
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                volleyResponseListener.onResponse(dataList);
+                if (currentType.equals("Anime")) volleyResponseListener.onResponse(animeList);
+                else if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaList);
 
             }
         }, new Response.ErrorListener() {
@@ -95,13 +132,5 @@ public class DataService {
 
         DataSingleton.getInstance(context).addToRequestQueue(request);
     }
-
-//    public List<ItemModel> getItemDetailsByID(String ID) {
-//
-//    }
-//
-//    public List<ItemModel> getItemDetailsByTitle(String title) {
-//
-//    }
 
 }

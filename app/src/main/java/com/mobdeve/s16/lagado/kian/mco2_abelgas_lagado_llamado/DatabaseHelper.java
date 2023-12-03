@@ -34,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_MANGA_STATUS = "status";
     private static final String COLUMN_MANGA_SCORE = "score";
     private static final String COLUMN_MANGA_SYNOPSIS = "synopsis";
+    private static final String COLUMN_MANGA_DATE = "date";
     private static final String COLUMN_MANGA_AUTHORS = "authors";
     private static final String COLUMN_MANGA_GENRES = "genres";
 
@@ -49,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ANIME_TITLE + " TEXT,"
                 + COLUMN_ANIME_EPISODES + " INTEGER,"
                 + COLUMN_ANIME_STATUS + " TEXT,"
-                + COLUMN_ANIME_SCORE + " REAL,"
+                + COLUMN_ANIME_SCORE + " TEXT,"
                 + COLUMN_ANIME_SYNOPSIS + " TEXT,"
                 + COLUMN_ANIME_DATE + " TEXT,"
                 + COLUMN_ANIME_STUDIOS + " TEXT,"
@@ -62,8 +63,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_MANGA_TITLE + " TEXT,"
                 + COLUMN_MANGA_CHAPTERS + " INTEGER,"
                 + COLUMN_MANGA_STATUS + " TEXT,"
-                + COLUMN_MANGA_SCORE + " REAL,"
+                + COLUMN_MANGA_SCORE + " TEXT,"
                 + COLUMN_MANGA_SYNOPSIS + " TEXT,"
+                + COLUMN_MANGA_DATE + " TEXT,"
                 + COLUMN_MANGA_AUTHORS + " TEXT,"
                 + COLUMN_MANGA_GENRES + " TEXT"
                 + ")";
@@ -155,8 +157,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_TITLE)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_MANGA_CHAPTERS)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_STATUS)),
-                    cursor.getDouble(cursor.getColumnIndex(COLUMN_MANGA_SCORE)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_SCORE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_SYNOPSIS)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_DATE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_AUTHORS)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_GENRES)));
 

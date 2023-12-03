@@ -14,9 +14,11 @@ import com.squareup.picasso.Picasso; // Ensure Picasso library is included in yo
 
 import java.util.List;
 
-public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder> {
+public class AnimeAdapter<T> extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder> {
 
-    private List<TestAnime> animeList;
+    private String type;
+    private List<T> dataList;
+    private LayoutInflater inflater;
     private Context context;
 
     private OnItemClickListener listener;
@@ -30,13 +32,14 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
     }
 
     // Constructor
-    public AnimeAdapter(Context context, List<TestAnime> animeList) {
+    public AnimeAdapter(Context context, List<T> dataList, String type) {
         this.context = context;
-        this.animeList = animeList;
+        this.dataList = dataList;
+        this.type = type;
     }
 
-    public void updateData(List<TestAnime> updatedData) {
-        this.animeList = updatedData;
+    public void updateData(List<T> updatedData) {
+        this.dataList = updatedData;
         notifyDataSetChanged();
     }
 
@@ -74,18 +77,26 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
 
     @Override
     public void onBindViewHolder(@NonNull AnimeViewHolder holder, int position) {
-        TestAnime anime = animeList.get(position);
+        T data = dataList.get(position);
 
-        // Use Picasso to load the image from the URL
-        Picasso.get().load(anime.getImageUrl()).into(holder.thumbnail);
-
-        holder.title.setText(anime.getTitle());
-        holder.synopsis.setText(anime.getSynopsis());
-        holder.rating.setText(String.valueOf(anime.getScore())); // Assuming score is a double
+        if (type.equals("Anime")) {
+            TestAnime anime = (TestAnime) data;
+            Picasso.get().load(anime.getImageUrl()).into(holder.thumbnail); // Use Picasso to load the image from the URL
+            holder.title.setText(anime.getTitle());
+            holder.synopsis.setText(anime.getSynopsis());
+            holder.rating.setText(String.valueOf(anime.getScore())); // Assuming score is a double
+        }
+        else if (type.equals("Manga")) {
+            Manga manga = (Manga) data;
+            Picasso.get().load(manga.getImageUrl()).into(holder.thumbnail); // Use Picasso to load the image from the URL
+            holder.title.setText(manga.getTitle());
+            holder.synopsis.setText(manga.getSynopsis());
+            holder.rating.setText(String.valueOf(manga.getScore())); // Assuming score is a double
+        }
     }
 
     @Override
     public int getItemCount() {
-        return animeList.size();
+        return dataList.size();
     }
 }
