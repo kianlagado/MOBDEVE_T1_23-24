@@ -36,22 +36,21 @@ public class DataService<T> {
     // TODO: manga isnt working for some reason
     public void displayTop(String currentType, VolleyResponseListener volleyResponseListener) {
 
-        animeList = new ArrayList<>();
-        mangaList = new ArrayList<>();
-
         String url = "";
         if (currentType.equals("Anime"))
             url = QUERY_FOR_TOP_ANIME;
         else if (currentType.equals("Manga"))
             url = QUERY_FOR_TOP_MANGA;
 
-        Toast.makeText(context, url, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, url, Toast.LENGTH_LONG).show();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
+                    animeList = new ArrayList<>();
+                    mangaList = new ArrayList<>();
                     JSONArray entries = response.getJSONArray("data");
 
                     for (int i=0; i < entries.length(); i++) {
@@ -98,12 +97,17 @@ public class DataService<T> {
                         int chapters = 0;
                         String authors = "";
                         if (currentType.equals("Manga")) { // manga info
-                            chapters = entry.getInt("chapters");
+                            try {
+                                chapters = entry.getInt("chapters");
+                            }
+                            catch (Exception e) {
+                                chapters = 0;
+                            }
                             date = entry.getJSONObject("published").getString("string");
                             JSONArray authorsArr = entry.getJSONArray("authors");
                             for (int j = 0; j < authorsArr.length(); j++) {
-                                JSONObject studiosObj = authorsArr.getJSONObject(j);
-                                authors += studiosObj.getString("name");
+                                JSONObject authorsObj = authorsArr.getJSONObject(j);
+                                authors += authorsObj.getString("name");
                                 if (j + 1 != authorsArr.length()) {
                                     authors += ", ";
                                 }
@@ -119,7 +123,7 @@ public class DataService<T> {
                 }
 
                 if (currentType.equals("Anime")) volleyResponseListener.onResponse(animeList);
-                else if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaList);
+                if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaList);
 
             }
         }, new Response.ErrorListener() {

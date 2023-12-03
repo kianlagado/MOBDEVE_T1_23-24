@@ -107,7 +107,6 @@ public class MainActivity<T> extends AppCompatActivity {
                     button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
                     currentType = button.getText().toString();
                     fetchTop(animaExpress, currentType);
-
                 }
             });
         }
@@ -140,6 +139,7 @@ public class MainActivity<T> extends AppCompatActivity {
                         Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
                         // If needed, pass extra data to the DetailActivity using putExtra
                         T data = dataList.get(position);
+                        Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
 
                         if (currentType.equals("Anime")) {
                             TestAnime currAnime = (TestAnime) data;
