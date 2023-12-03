@@ -7,15 +7,15 @@ public class Manga {
 
     // Constructor
     public Manga(int mal_id, String imageUrl, String title, int chapters, String status,
-                 String score, String date, String synopsis, String authors, String genres) {
+                 String score, String synopsis, String date,String authors, String genres) {
         this.mal_id = mal_id;
         this.imageUrl = imageUrl;
         this.title = title;
         this.chapters = chapters;
         this.status = status;
         this.score = score;
-        this.date = date;
         this.synopsis = synopsis;
+        this.date = date;
         this.authors = authors;
         this.genres = genres;
     }

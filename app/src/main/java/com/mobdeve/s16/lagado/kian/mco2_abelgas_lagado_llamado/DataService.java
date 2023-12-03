@@ -79,7 +79,13 @@ public class DataService<T> {
                         String studios = "";
                         // anime info
                         if (currentType.equals("Anime")) {
-                            episodes = entry.getInt("episodes");
+                            try {
+                                episodes = entry.getInt("episodes");
+                            }
+                            catch (Exception e) {
+                                episodes = 0;
+                            }
+
                             date = entry.getJSONObject("aired").getString("string");
                             JSONArray studiosArr = entry.getJSONArray("studios");
                             for (int j = 0; j < studiosArr.length(); j++) {
