@@ -42,4 +42,5 @@ public class Manga {
     public void setSynopsis(String synopsis) { this.synopsis = synopsis; }
     public void setAuthors(String authors) { this.authors = authors; }
     public void setGenres(String genres) { this.genres = genres; }
+    public void setDate(String genres) { this.date = date; }
 }

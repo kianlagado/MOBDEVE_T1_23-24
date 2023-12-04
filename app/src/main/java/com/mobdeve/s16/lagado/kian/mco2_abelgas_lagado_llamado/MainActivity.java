@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity<T> extends AppCompatActivity {
+    public static String ID_TAG = "ID";
     public static String TITLE_TAG = "TITLE";
     public static String IMAGE_TAG = "IMAGE";
     public static String DESC_TAG = "DESC";
@@ -203,6 +204,7 @@ public class MainActivity<T> extends AppCompatActivity {
 
                         if (currentType.equals("Anime")) {
                             TestAnime currAnime = (TestAnime) data;
+                            detailIntent.putExtra(ID_TAG, currAnime.getMal_id());
                             detailIntent.putExtra(TITLE_TAG, currAnime.getTitle());
                             detailIntent.putExtra(IMAGE_TAG, currAnime.getImageUrl());
                             detailIntent.putExtra(RATING_TAG, currAnime.getScore());
@@ -215,6 +217,7 @@ public class MainActivity<T> extends AppCompatActivity {
                         }
                         else if (currentType.equals("Manga")) {
                             Manga currManga = (Manga) data;
+                            detailIntent.putExtra(ID_TAG, currManga.getMal_id());
                             detailIntent.putExtra(TITLE_TAG, currManga.getTitle());
                             detailIntent.putExtra(IMAGE_TAG, currManga.getImageUrl());
                             detailIntent.putExtra(RATING_TAG, currManga.getScore());

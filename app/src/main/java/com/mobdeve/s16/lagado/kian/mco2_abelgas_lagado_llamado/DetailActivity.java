@@ -12,7 +12,19 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
-
+    public static String ID_TAG = "ID";
+    public static String TITLE_TAG = "TITLE";
+    public static String IMAGE_TAG = "IMAGE";
+    public static String DESC_TAG = "DESC";
+    public static String RATING_TAG = "RATING";
+    public static String DATE_TAG = "DATE";
+    public static String STATUS_TAG = "STATUS";
+    public static String GENRES_TAG = "GENRES";
+    public static String STUDIOS_TAG = "STUDIOS";
+    public static String AUTHORS_TAG = "AUTHORS";
+    public static String EPISODES_TAG = "EPISODES";
+    public static String CHAPTERS_TAG = "CHAPTERS";
+    public static String TYPE_TAG = "TYPE";
     TextView titleText;
     ImageView itemImage;
     TextView ratingText;
@@ -36,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent i = getIntent();
+        String id = i.getStringExtra(MainActivity.ID_TAG);
         String type = i.getStringExtra(MainActivity.TYPE_TAG);
         String title = i.getStringExtra(MainActivity.TITLE_TAG);
         String image = i.getStringExtra(MainActivity.IMAGE_TAG);
@@ -109,8 +122,28 @@ public class DetailActivity extends AppCompatActivity {
         btnAddToLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to launch the AddToLibraryActivity
+                // Create an Intent to launch the EditEntryActivity
                 Intent intent = new Intent(DetailActivity.this, AddToLibraryActivity.class);
+
+                intent.putExtra(ID_TAG, id);
+                intent.putExtra(TITLE_TAG, title);
+                intent.putExtra(IMAGE_TAG, image); // Replace with the correct image ID or URL
+                intent.putExtra(RATING_TAG, rating);
+                intent.putExtra(DESC_TAG, desc);
+                intent.putExtra(GENRES_TAG, genres);
+                intent.putExtra(DATE_TAG, date);
+                intent.putExtra(STATUS_TAG, status);
+
+                // Additional details specific to anime or manga
+                if (type.equals("Anime")) {
+                    intent.putExtra(EPISODES_TAG, episodes);
+                    intent.putExtra(STUDIOS_TAG, studios);
+                } else if (type.equals("Manga")) {
+                    intent.putExtra(CHAPTERS_TAG, chapters);
+                    intent.putExtra(AUTHORS_TAG, authors);
+                }
+
+                intent.putExtra(TYPE_TAG, type); // Type can be 'Anime' or 'Manga'
 
                 // Start the activity
                 startActivity(intent);

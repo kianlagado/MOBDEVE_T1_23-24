@@ -56,4 +56,5 @@ public class TestAnime {
     public void setSynopsis(String synopsis) { this.synopsis = synopsis; }
     public void setStudios(String studios) { this.studios = studios; }
     public void setGenres(String genres) { this.genres = genres; }
+    public void setDate(String date) { this.date = date; }
 }

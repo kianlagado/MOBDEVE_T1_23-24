@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class EditEntryActivity extends AppCompatActivity {
     private String newProgress;
     private String selectedAction;
 
+    DatabaseHelper databaseHelper;
 
 
     @Override
@@ -49,26 +52,28 @@ public class EditEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
+        databaseHelper = new DatabaseHelper(this); // Initialize database helper
+
         Intent intent = getIntent();
         String title = intent.getStringExtra(LibraryAdapter.TITLE_TAG);
-        int image = intent.getIntExtra(LibraryAdapter.IMAGE_TAG, 0);
+        String image = intent.getStringExtra(LibraryAdapter.IMAGE_TAG);
         String status = intent.getStringExtra(LibraryAdapter.USER_STATUS_TAG);
         String userRating = intent.getStringExtra(LibraryAdapter.USER_RATING_TAG);
         String userProgress = intent.getStringExtra(LibraryAdapter.USER_PROGRESS_TAG);
         String entryType = intent.getStringExtra(LibraryAdapter.TYPE_TAG);
         int position = intent.getIntExtra(LibraryAdapter.POS_TAG, 0);
 
-        // Default values
-        selectedRating = userRating;
-        selectedStatus = status;
-        newProgress = userProgress;
+        // Setting default values for new entry
+        selectedRating = (userRating != null) ? userRating : "Unrated";
+        selectedStatus = (status != null) ? status : "Plan to Watch"; // Default status
+        newProgress = (userProgress != null) ? userProgress : "0"; // Default progress
 
 
         entryTitle = findViewById(R.id.entry_title);
         entryTitle.setText(title);
 
         entryImage = findViewById(R.id.entry_image);
-        entryImage.setImageResource(image);
+        Picasso.get().load(image).into(entryImage);
 
         watchingBtn = findViewById(R.id.watching_btn);
         if (entryType.equals("Manga")) watchingBtn.setText("Reading");
@@ -148,6 +153,7 @@ public class EditEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAction = "Confirm";
+
                 Intent return_intent = new Intent();
                 return_intent.putExtra(RATING_TAG, selectedRating);
                 return_intent.putExtra(PROGRESS_TAG, newProgress);

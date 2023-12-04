@@ -96,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ANIME_SYNOPSIS, anime.getSynopsis());
         values.put(COLUMN_ANIME_STUDIOS, anime.getStudios());
         values.put(COLUMN_ANIME_GENRES, anime.getGenres());
+        values.put(COLUMN_ANIME_DATE, anime.getDate());
 
         db.insert(TABLE_ANIME, null, values);
         db.close();
@@ -114,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MANGA_SYNOPSIS, manga.getSynopsis());
         values.put(COLUMN_MANGA_AUTHORS, manga.getAuthors());
         values.put(COLUMN_MANGA_GENRES, manga.getGenres());
+        values.put(COLUMN_MANGA_DATE, manga.getDate());
 
         db.insert(TABLE_MANGA, null, values);
         db.close();
@@ -149,7 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_MANGA, new String[] { COLUMN_MANGA_ID, COLUMN_MANGA_IMAGE_URL, COLUMN_MANGA_TITLE,
                         COLUMN_MANGA_CHAPTERS, COLUMN_MANGA_STATUS, COLUMN_MANGA_SCORE,
-                        COLUMN_MANGA_SYNOPSIS, COLUMN_MANGA_AUTHORS, COLUMN_MANGA_GENRES },
+                        COLUMN_MANGA_SYNOPSIS, COLUMN_MANGA_AUTHORS, COLUMN_MANGA_GENRES, COLUMN_MANGA_DATE },
                 COLUMN_MANGA_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             @SuppressLint("Range") Manga manga = new Manga(cursor.getInt(cursor.getColumnIndex(COLUMN_MANGA_ID)),
@@ -182,6 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ANIME_SYNOPSIS, anime.getSynopsis());
         values.put(COLUMN_ANIME_STUDIOS, anime.getStudios());
         values.put(COLUMN_ANIME_GENRES, anime.getGenres());
+        values.put(COLUMN_ANIME_DATE, anime.getDate());
 
         return db.update(TABLE_ANIME, values, COLUMN_ANIME_ID + " = ?", new String[]{String.valueOf(anime.getMal_id())});
     }
@@ -199,6 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MANGA_SYNOPSIS, manga.getSynopsis());
         values.put(COLUMN_MANGA_AUTHORS, manga.getAuthors());
         values.put(COLUMN_MANGA_GENRES, manga.getGenres());
+        values.put(COLUMN_MANGA_DATE, manga.getDate());
 
         return db.update(TABLE_MANGA, values, COLUMN_MANGA_ID + " = ?", new String[]{String.valueOf(manga.getMal_id())});
     }
