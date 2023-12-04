@@ -27,7 +27,6 @@ public class MainActivity<T> extends AppCompatActivity {
     public static String AUTHORS_TAG = "AUTHORS";
     public static String EPISODES_TAG = "EPISODES";
     public static String CHAPTERS_TAG = "CHAPTERS";
-    public static String TYPE_TAG = "TYPE";
     private String currentType;
     private ArrayList<T> dataList;
     AnimeAdapter animeAdapter;
@@ -166,7 +165,6 @@ public class MainActivity<T> extends AppCompatActivity {
                             detailIntent.putExtra(AUTHORS_TAG, currManga.getAuthors());
                             detailIntent.putExtra(STATUS_TAG, currManga.getStatus());
                         }
-                        detailIntent.putExtra(TYPE_TAG, currentType);
                         startActivity(detailIntent);
                     }
                 });

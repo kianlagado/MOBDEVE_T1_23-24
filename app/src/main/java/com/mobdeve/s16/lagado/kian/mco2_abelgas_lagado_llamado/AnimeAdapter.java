@@ -47,19 +47,14 @@ public class AnimeAdapter<T> extends RecyclerView.Adapter<AnimeAdapter.AnimeView
     public static class AnimeViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
         TextView title;
-        TextView genres;
-        TextView date;
-
-        TextView status;
+        TextView synopsis;
         TextView rating;
 
         public AnimeViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
             title = itemView.findViewById(R.id.title);
-            genres = itemView.findViewById(R.id.genres);
-            date = itemView.findViewById(R.id.date);
-            status = itemView.findViewById(R.id.status);
+            synopsis = itemView.findViewById(R.id.synopsis);
             rating = itemView.findViewById(R.id.rating);
 
             itemView.setOnClickListener(v -> {
@@ -88,18 +83,14 @@ public class AnimeAdapter<T> extends RecyclerView.Adapter<AnimeAdapter.AnimeView
             TestAnime anime = (TestAnime) data;
             Picasso.get().load(anime.getImageUrl()).into(holder.thumbnail); // Use Picasso to load the image from the URL
             holder.title.setText(anime.getTitle());
-            holder.genres.setText(anime.getGenres());
-            holder.date.setText(anime.getDate());
-            holder.status.setText(anime.getStatus());
+            holder.synopsis.setText(anime.getSynopsis());
             holder.rating.setText(String.valueOf(anime.getScore())); // Assuming score is a double
         }
         else if (type.equals("Manga")) {
             Manga manga = (Manga) data;
             Picasso.get().load(manga.getImageUrl()).into(holder.thumbnail); // Use Picasso to load the image from the URL
             holder.title.setText(manga.getTitle());
-            holder.genres.setText(manga.getGenres());
-            holder.date.setText(manga.getDate());
-            holder.status.setText(manga.getStatus());
+            holder.synopsis.setText(manga.getSynopsis());
             holder.rating.setText(String.valueOf(manga.getScore())); // Assuming score is a double
         }
     }

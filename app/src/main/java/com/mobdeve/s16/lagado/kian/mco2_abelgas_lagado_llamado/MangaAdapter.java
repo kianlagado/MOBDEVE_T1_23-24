@@ -51,7 +51,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
             title = itemView.findViewById(R.id.title);
-            synopsis = itemView.findViewById(R.id.genres);
+            synopsis = itemView.findViewById(R.id.synopsis);
             rating = itemView.findViewById(R.id.rating);
 
             itemView.setOnClickListener(v -> {

@@ -18,16 +18,10 @@ public class DetailActivity extends AppCompatActivity {
     TextView ratingText;
     TextView descText;
     TextView genreText;
-    TextView epsHeader;
     TextView epsText;
-    TextView dateHeader;
     TextView dateText;
-    TextView studiosHeader;
     TextView studiosText;
     TextView statusText;
-
-    int episodes, chapters;
-    String studios, authors;
 
 
     @Override
@@ -36,23 +30,15 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent i = getIntent();
-        String type = i.getStringExtra(MainActivity.TYPE_TAG);
         String title = i.getStringExtra(MainActivity.TITLE_TAG);
         String image = i.getStringExtra(MainActivity.IMAGE_TAG);
         String rating = i.getStringExtra(MainActivity.RATING_TAG);
         String desc = i.getStringExtra(MainActivity.DESC_TAG);
         String genres = i.getStringExtra(MainActivity.GENRES_TAG);
+        int episodes = i.getIntExtra(MainActivity.EPISODES_TAG, 0);
         String date = i.getStringExtra(MainActivity.DATE_TAG);
+        String studios = i.getStringExtra(MainActivity.STUDIOS_TAG);
         String status = i.getStringExtra(MainActivity.STATUS_TAG);
-
-        if (type.equals("Anime")) {
-            episodes = i.getIntExtra(MainActivity.EPISODES_TAG, 0);
-            studios = i.getStringExtra(MainActivity.STUDIOS_TAG);
-        }
-        else if (type.equals("Manga")) {
-            chapters = i.getIntExtra(MainActivity.CHAPTERS_TAG, 0);
-            authors = i.getStringExtra(MainActivity.AUTHORS_TAG);
-        }
 
 
         titleText = findViewById(R.id.entry_title);
@@ -60,14 +46,10 @@ public class DetailActivity extends AppCompatActivity {
         ratingText = findViewById(R.id.tv_detail_rating);
         descText = findViewById(R.id.tv_synopsis_content);
         genreText = findViewById(R.id.tv_genres);
-        epsHeader = findViewById(R.id.tv_episodes_header);
         epsText = findViewById(R.id.tv_episodes);
-        dateHeader = findViewById(R.id.tv_airing_header);
         dateText = findViewById(R.id.tv_airing_date);
-        studiosHeader = findViewById(R.id.tv_studio_header);
         studiosText = findViewById(R.id.tv_studio);
         statusText = findViewById(R.id.tv_status);
-
 
 
         titleText.setText(title);
@@ -75,22 +57,9 @@ public class DetailActivity extends AppCompatActivity {
         ratingText.setText("Rating: " + rating);
         descText.setText(desc);
         genreText.setText(genres);
-
-        if (type.equals("Anime")) {
-            epsHeader.setText("Episodes");
-            studiosHeader.setText("Studios");
-            dateHeader.setText("Aired On");
-            epsText.setText(String.valueOf(episodes));
-            studiosText.setText(studios);
-        }
-        else if (type.equals("Manga")) {
-            epsHeader.setText("Chapters");
-            studiosHeader.setText("Authors");
-            dateHeader.setText("Published On");
-            epsText.setText(String.valueOf(chapters));
-            studiosText.setText(authors);
-        }
+        epsText.setText(String.valueOf(episodes));
         dateText.setText(date);
+        studiosText.setText(studios);
         statusText.setText(status);
 
 
