@@ -25,15 +25,6 @@
             app:tint="#5E758D" />
 
         <!-- Anime/Manga Title -->
-        <TextView
-            android:id="@+id/entry_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Spy x Family"
-            android:textColor="#5E758D"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
         <!-- Add to Library ImageButton -->
         <ImageButton
@@ -61,6 +52,20 @@
             android:padding="16dp">
 
             <!-- Anime/Manga Image -->
+
+            <TextView
+                android:id="@+id/entry_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="12dp"
+                android:text="Spy x Family"
+                android:textAlignment="center"
+                android:textColor="#5E758D"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/entry_image"
                 android:layout_width="match_parent"

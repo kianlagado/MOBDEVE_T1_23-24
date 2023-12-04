@@ -35,9 +35,8 @@ public class MainActivity<T> extends AppCompatActivity {
     private boolean isLoading;
     private ArrayList<T> dataList;
     AnimeAdapter animeAdapter;
-    AnimeAdapter mangaAdapter;
     RecyclerView recyclerView;
-    DataService animaExpress;
+    private DataService animaExpress;
     Handler handler = new Handler();
     private Runnable loadNextPageRunnable;
 
@@ -70,6 +69,7 @@ public class MainActivity<T> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                searchIntent.putExtra(TYPE_TAG, currentType);
                 startActivity(searchIntent);
             }
         });
@@ -94,7 +94,7 @@ public class MainActivity<T> extends AppCompatActivity {
 
         // --------------DATA FETCHING-------------------
         //RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        DataService animaExpress = new DataService(MainActivity.this);
+        animaExpress = new DataService(MainActivity.this);
         fetchTop(animaExpress, currentType, currentPage); // load initial data
 
         // For highlighting and displaying filtered data based on currently selected mode
@@ -191,7 +191,7 @@ public class MainActivity<T> extends AppCompatActivity {
 
                 animeAdapter.updateData(dataList, startIndex);
 
-                Toast.makeText(MainActivity.this, String.valueOf(currentPage), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, String.valueOf(currentPage), Toast.LENGTH_SHORT).show();
 
                 animeAdapter.setOnItemClickListener(new AnimeAdapter.OnItemClickListener() {
                     @Override
@@ -199,7 +199,7 @@ public class MainActivity<T> extends AppCompatActivity {
                         Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
                         // If needed, pass extra data to the DetailActivity using putExtra
                         T data = dataList.get(position);
-                        Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
 
                         if (currentType.equals("Anime")) {
                             TestAnime currAnime = (TestAnime) data;

@@ -20,8 +20,8 @@ public class DataService<T> {
     public static final String QUERY_FOR_TOP_MANGA = "https://api.jikan.moe/v4/top/manga";
     Context context;
 
-    ArrayList<TestAnime> animeList;
-    ArrayList<Manga> mangaList;
+    ArrayList<TestAnime> animeList, animeResults;
+    ArrayList<Manga> mangaList, mangaResults;
 
     public DataService(Context context) {
         this.context = context;
@@ -132,6 +132,112 @@ public class DataService<T> {
                 if (currentType.equals("Anime")) volleyResponseListener.onResponse(animeList);
                 if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaList);
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Error getting JsonObject", Toast.LENGTH_SHORT).show();
+                volleyResponseListener.onError("Something went wrong!");
+            }
+        });
+        DataSingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    public void searchJikan(String query, String currentType, VolleyResponseListener volleyResponseListener) {
+        String url = "";
+        if (currentType.equals("Anime")) url = "https://api.jikan.moe/v4/anime?q="+query+"&sfw";
+        if (currentType.equals("Manga")) url = "https://api.jikan.moe/v4/manga?q="+query+"&sfw";
+
+
+//        Toast.makeText(context, url, Toast.LENGTH_LONG).show();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String toShow = "Got nothing...";
+                try {
+                    animeResults = new ArrayList<>();
+                    mangaResults = new ArrayList<>();
+                    JSONArray results = response.getJSONArray("data");
+                    for (int i=0; i<results.length(); i++) {
+                        JSONObject entry = results.getJSONObject(i);
+
+                        // base info
+                        String imageUrl = entry.getJSONObject("images").getJSONObject("jpg").getString("image_url");
+                        int ID = entry.getInt("mal_id");
+                        String title = entry.getString("title");
+                        String status = entry.getString("status");
+                        String score = entry.getString("score") + "/10";
+                        String synopsis = entry.getString("synopsis");
+
+                        String genres = "";
+                        JSONArray genresArr = entry.getJSONArray("genres");
+                        for (int j = 0; j < genresArr.length(); j++) {
+                            JSONObject genresObj = genresArr.getJSONObject(j);
+                            genres += genresObj.getString("name");
+                            if (j+1 != genresArr.length()) {
+                                genres += ", ";
+                            }
+                        }
+
+                        int episodes = 0;
+                        String date = "";
+                        String studios = "";
+                        // anime info
+                        if (currentType.equals("Anime")) {
+                            try {
+                                episodes = entry.getInt("episodes");
+                            }
+                            catch (Exception e) {
+                                episodes = 0;
+                            }
+
+                            date = entry.getJSONObject("aired").getString("string");
+                            JSONArray studiosArr = entry.getJSONArray("studios");
+                            for (int j = 0; j < studiosArr.length(); j++) {
+                                JSONObject studiosObj = studiosArr.getJSONObject(j);
+                                studios += studiosObj.getString("name");
+                                if (j + 1 != studiosArr.length()) {
+                                    studios += ", ";
+                                }
+                            }
+
+                            TestAnime animeObject = new TestAnime(ID, imageUrl, title, episodes, status, score, synopsis, date, studios, genres);
+                            animeResults.add(animeObject);
+                        }
+
+                        int chapters = 0;
+                        String authors = "";
+                        if (currentType.equals("Manga")) { // manga info
+                            try {
+                                chapters = entry.getInt("chapters");
+                            }
+                            catch (Exception e) {
+                                chapters = 0;
+                            }
+                            date = entry.getJSONObject("published").getString("string");
+                            JSONArray authorsArr = entry.getJSONArray("authors");
+                            for (int j = 0; j < authorsArr.length(); j++) {
+                                JSONObject authorsObj = authorsArr.getJSONObject(j);
+                                authors += authorsObj.getString("name");
+                                if (j + 1 != authorsArr.length()) {
+                                    authors += ", ";
+                                }
+                            }
+
+                            Manga mangaObject = new Manga(ID, imageUrl, title, chapters, status, score, synopsis, date, authors, genres);
+                            mangaResults.add(mangaObject);
+                        }
+                    }
+
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                Toast.makeText(context, String.valueOf(mangaResults.size()), Toast.LENGTH_LONG).show();
+
+                if (currentType.equals("Anime")) volleyResponseListener.onResponse(animeResults);
+                if (currentType.equals("Manga")) volleyResponseListener.onResponse(mangaResults);
             }
         }, new Response.ErrorListener() {
             @Override

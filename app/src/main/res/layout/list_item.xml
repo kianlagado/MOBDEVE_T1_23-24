@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="109dp"
-        android:layout_height="108dp"
+        android:layout_height="109dp"
         android:src="@drawable/drstone" />
 
     <!-- Text for the Anime/Manga rating -->

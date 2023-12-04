@@ -10,37 +10,50 @@
     android:paddingBottom="16dp">
 
 
+    <ImageButton
+        android:id="@+id/btn_close_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Close Search"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <TextView
+        android:id="@+id/search_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:text="Search"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchAnime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="38dp"
+        android:background="#5E758D"
+        android:queryHint="Search for anime or manga"
+        app:iconifiedByDefault="false" />
+
     <RelativeLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="38dp"
         android:layout_marginBottom="10dp">
 
         <!-- Close Button -->
-        <ImageButton
-            android:id="@+id/btn_close_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="0dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Close Search"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
         <!-- SearchView -->
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchAnime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/btn_close_search"
-            android:background="#5E758D"
-            android:queryHint="Search for anime or manga"
-            app:iconifiedByDefault="false"
-            />
 
     </RelativeLayout>
 
@@ -48,8 +61,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/search_layout"
+        android:layout_marginTop="38dp"
         android:background="#A2A9AA"
         android:divider="#5E758D"
         android:dividerHeight="1dp"

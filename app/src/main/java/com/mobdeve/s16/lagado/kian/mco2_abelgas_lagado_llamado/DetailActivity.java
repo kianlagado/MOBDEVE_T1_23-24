@@ -117,11 +117,5 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        Intent intent = getIntent();
-        if (intent != null) {
-            Anime receivedAnime = intent.getParcelableExtra("SELECTED_ANIME");
-            // Now you can use 'receivedAnime' to populate your views in DetailActivity.
-        }*/
     }
 }
