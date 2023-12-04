@@ -14,6 +14,9 @@
         android:theme="@style/Theme.MCO2_Abelgas_Lagado_Llamado"
         tools:targetApi="31">
         <activity
+            android:name=".AddToLibraryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

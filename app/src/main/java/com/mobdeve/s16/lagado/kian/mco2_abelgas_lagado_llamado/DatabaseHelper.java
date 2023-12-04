@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+import java.util.ArrayList;
+
+public class DatabaseHelper<T> extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "AnimaExpressDB";
     private static final int DATABASE_VERSION = 1;
@@ -15,28 +17,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Anime Table
     private static final String TABLE_ANIME = "anime";
     private static final String COLUMN_ANIME_ID = "mal_id";
-    private static final String COLUMN_ANIME_IMAGE_URL = "image_url";
     private static final String COLUMN_ANIME_TITLE = "title";
-    private static final String COLUMN_ANIME_EPISODES = "episodes";
-    private static final String COLUMN_ANIME_STATUS = "status";
+    private static final String COLUMN_ANIME_IMAGE_URL = "image_url";
     private static final String COLUMN_ANIME_SCORE = "score";
     private static final String COLUMN_ANIME_SYNOPSIS = "synopsis";
+    private static final String COLUMN_ANIME_EPISODES = "episodes";
     private static final String COLUMN_ANIME_DATE = "date";
     private static final String COLUMN_ANIME_STUDIOS = "studios";
     private static final String COLUMN_ANIME_GENRES = "genres";
+    private static final String COLUMN_ANIME_STATUS = "status";
+    private static final String COLUMN_ANIME_USER_RATING = "userRating";
+    private static final String COLUMN_ANIME_USER_PROGRESS = "userProgress";
+    private static final String COLUMN_ANIME_USER_STATUS = "userStatus";
 
     // Manga Table
     private static final String TABLE_MANGA = "manga";
     private static final String COLUMN_MANGA_ID = "mal_id";
-    private static final String COLUMN_MANGA_IMAGE_URL = "image_url";
     private static final String COLUMN_MANGA_TITLE = "title";
-    private static final String COLUMN_MANGA_CHAPTERS = "chapters";
-    private static final String COLUMN_MANGA_STATUS = "status";
+    private static final String COLUMN_MANGA_IMAGE_URL = "image_url";
     private static final String COLUMN_MANGA_SCORE = "score";
     private static final String COLUMN_MANGA_SYNOPSIS = "synopsis";
+    private static final String COLUMN_MANGA_CHAPTERS = "chapters";
     private static final String COLUMN_MANGA_DATE = "date";
     private static final String COLUMN_MANGA_AUTHORS = "authors";
     private static final String COLUMN_MANGA_GENRES = "genres";
+    private static final String COLUMN_MANGA_STATUS = "status";
+    private static final String COLUMN_MANGA_USER_RATING = "userRating";
+    private static final String COLUMN_MANGA_USER_PROGRESS = "userProgress";
+    private static final String COLUMN_MANGA_USER_STATUS = "userStatus";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,7 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ANIME_SYNOPSIS + " TEXT,"
                 + COLUMN_ANIME_DATE + " TEXT,"
                 + COLUMN_ANIME_STUDIOS + " TEXT,"
-                + COLUMN_ANIME_GENRES + " TEXT"
+                + COLUMN_ANIME_GENRES + " TEXT,"
+                + COLUMN_ANIME_USER_STATUS + " TEXT,"
+                + COLUMN_ANIME_USER_RATING + " TEXT,"
+                + COLUMN_ANIME_USER_PROGRESS + " TEXT"
                 + ")";
 
         String CREATE_MANGA_TABLE = "CREATE TABLE " + TABLE_MANGA + "("
@@ -67,7 +78,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_MANGA_SYNOPSIS + " TEXT,"
                 + COLUMN_MANGA_DATE + " TEXT,"
                 + COLUMN_MANGA_AUTHORS + " TEXT,"
-                + COLUMN_MANGA_GENRES + " TEXT"
+                + COLUMN_MANGA_GENRES + " TEXT,"
+                + COLUMN_MANGA_USER_STATUS + " TEXT,"
+                + COLUMN_MANGA_USER_RATING + " TEXT,"
+                + COLUMN_MANGA_USER_PROGRESS + " TEXT"
                 + ")";
 
         db.execSQL(CREATE_ANIME_TABLE);
@@ -79,6 +93,96 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ANIME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANGA);
         onCreate(db);
+    }
+
+    // get all Anime
+    @SuppressLint("Range")
+    public ArrayList<TestAnime> getAllAnime() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<TestAnime> allAnime = new ArrayList<>();
+
+        Cursor cursor = db.query(
+                TABLE_ANIME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            try {
+                while (cursor.moveToNext()) {
+                    @SuppressLint("Range") TestAnime anime = new TestAnime(
+                            cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_ID)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_IMAGE_URL)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_TITLE)),
+                            cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_EPISODES)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_STATUS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_SCORE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_SYNOPSIS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_DATE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_STUDIOS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_GENRES))
+                    );
+                    anime.setUserProgress(cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_USER_PROGRESS)));
+                    anime.setUserRating(cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_USER_RATING)));
+                    anime.setUserStatus(cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_USER_STATUS)));
+
+                    allAnime.add(anime);
+                }
+            }
+            finally {
+                cursor.close();
+            }
+        }
+        db.close();
+        return allAnime;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<Manga> getAllManga() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Manga> allManga = new ArrayList<>();
+
+        Cursor cursor = db.query(
+                TABLE_MANGA,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            try {
+                while (cursor.moveToNext()) {
+                    @SuppressLint("Range") Manga manga = new Manga(
+                            cursor.getInt(cursor.getColumnIndex(COLUMN_MANGA_ID)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_IMAGE_URL)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_TITLE)),
+                            cursor.getInt(cursor.getColumnIndex(COLUMN_MANGA_CHAPTERS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_STATUS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_SCORE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_SYNOPSIS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_DATE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_AUTHORS)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_GENRES))
+                    );
+                    manga.setUserProgress(cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_USER_PROGRESS)));
+                    manga.setUserRating(cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_USER_RATING)));
+                    manga.setUserStatus(cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_USER_STATUS)));
+                    allManga.add(manga);
+                }
+            }
+            finally {
+                cursor.close();
+            }
+        }
+        db.close();
+        return allManga;
     }
 
     // CRUD methods for Anime and Manga
@@ -97,6 +201,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ANIME_STUDIOS, anime.getStudios());
         values.put(COLUMN_ANIME_GENRES, anime.getGenres());
         values.put(COLUMN_ANIME_DATE, anime.getDate());
+        values.put(COLUMN_ANIME_USER_PROGRESS, anime.getUserProgress());
+        values.put(COLUMN_ANIME_USER_RATING, anime.getUserRating());
+        values.put(COLUMN_ANIME_USER_STATUS, anime.getUserStatus());
 
         db.insert(TABLE_ANIME, null, values);
         db.close();
@@ -116,6 +223,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_MANGA_AUTHORS, manga.getAuthors());
         values.put(COLUMN_MANGA_GENRES, manga.getGenres());
         values.put(COLUMN_MANGA_DATE, manga.getDate());
+        values.put(COLUMN_MANGA_USER_PROGRESS, manga.getUserProgress());
+        values.put(COLUMN_MANGA_USER_RATING, manga.getUserRating());
+        values.put(COLUMN_MANGA_USER_STATUS, manga.getUserStatus());
 
         db.insert(TABLE_MANGA, null, values);
         db.close();
@@ -126,10 +236,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_ANIME, new String[] { COLUMN_ANIME_ID, COLUMN_ANIME_IMAGE_URL, COLUMN_ANIME_TITLE,
                         COLUMN_ANIME_EPISODES, COLUMN_ANIME_STATUS, COLUMN_ANIME_SCORE,
-                        COLUMN_ANIME_SYNOPSIS, COLUMN_ANIME_DATE, COLUMN_ANIME_STUDIOS, COLUMN_ANIME_GENRES },
+                        COLUMN_ANIME_SYNOPSIS, COLUMN_ANIME_DATE, COLUMN_ANIME_STUDIOS, COLUMN_ANIME_GENRES,
+                        COLUMN_ANIME_USER_PROGRESS, COLUMN_ANIME_USER_RATING, COLUMN_ANIME_USER_STATUS},
                 COLUMN_ANIME_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
-            @SuppressLint("Range") TestAnime anime = new TestAnime(cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_ID)),
+            @SuppressLint("Range") TestAnime anime = new TestAnime(
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_ID)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_IMAGE_URL)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_TITLE)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_ANIME_EPISODES)),
@@ -139,10 +251,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_DATE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_STUDIOS)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_ANIME_GENRES)));
-
             cursor.close();
+            db.close();
             return anime;
         }
+        db.close();
         return null;
     }
 
@@ -151,7 +264,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_MANGA, new String[] { COLUMN_MANGA_ID, COLUMN_MANGA_IMAGE_URL, COLUMN_MANGA_TITLE,
                         COLUMN_MANGA_CHAPTERS, COLUMN_MANGA_STATUS, COLUMN_MANGA_SCORE,
-                        COLUMN_MANGA_SYNOPSIS, COLUMN_MANGA_AUTHORS, COLUMN_MANGA_GENRES, COLUMN_MANGA_DATE },
+                        COLUMN_MANGA_SYNOPSIS, COLUMN_MANGA_AUTHORS, COLUMN_MANGA_GENRES, COLUMN_MANGA_DATE,
+                        COLUMN_MANGA_USER_PROGRESS, COLUMN_MANGA_USER_RATING, COLUMN_MANGA_USER_STATUS},
                 COLUMN_MANGA_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             @SuppressLint("Range") Manga manga = new Manga(cursor.getInt(cursor.getColumnIndex(COLUMN_MANGA_ID)),
@@ -164,10 +278,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_DATE)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_AUTHORS)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_MANGA_GENRES)));
-
             cursor.close();
+            db.close();
             return manga;
         }
+        db.close();
         return null;
     }
 

@@ -16,7 +16,7 @@ public class TestAnime {
     // studios: This could be a list or a comma-separated string
     // genres: Similarly, a list or a comma-separated string
     private String imageUrl, title, status, synopsis, date, studios, genres, score;
-
+    private String userScore, userProgress, userStatus;
 
     // Constructor
     public TestAnime(int mal_id, String imageUrl, String title, int episodes, String status,
@@ -44,6 +44,9 @@ public class TestAnime {
     public String getStudios() { return studios; }
     public String getGenres() { return genres; }
     public String getDate() {return date;}
+    public String getUserRating() {return userScore;}
+    public String getUserProgress() {return userProgress;}
+    public String getUserStatus() {return userStatus;}
 
 
     // Setters
@@ -57,4 +60,7 @@ public class TestAnime {
     public void setStudios(String studios) { this.studios = studios; }
     public void setGenres(String genres) { this.genres = genres; }
     public void setDate(String date) { this.date = date; }
+    public void setUserRating(String userScore) {this.userScore = userScore;}
+    public void setUserProgress(String userProgress) {this.userProgress = userProgress;}
+    public void setUserStatus(String userStatus) {this.userStatus = userStatus;}
 }

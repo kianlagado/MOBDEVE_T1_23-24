@@ -9,18 +9,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
-public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
+import java.util.ArrayList;
 
-    Context context;
-    List<TestAnime> sampleEntries;
-    ActivityResultLauncher<Intent> launcher;
-
+public class LibraryAdapter<T> extends RecyclerView.Adapter<LibraryAdapter<T>.ViewHolder> {
     public static String TITLE_TAG = "TITLE";
     public static String IMAGE_TAG = "IMAGE";
     public static String DESC_TAG = "DESC";
@@ -32,96 +28,106 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     public static String TYPE_TAG = "TYPE";
     public static String POS_TAG = "POS";
 
-    public LibraryAdapter(LibraryActivity libraryActivity, List<TestAnime> sampleEntries, ActivityResultLauncher<Intent> launcher) {
-        this.context = libraryActivity;
-        this.sampleEntries = sampleEntries;
-        this.launcher = launcher;
+    private Context context;
+    private ArrayList<T> dataList;
+    private String type;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
-    public void updateEntries(List<TestAnime> updatedEntries) {
-        this.sampleEntries = updatedEntries;
+    public void setOnItemClickListener(OnItemClickListener listener) {this.listener = listener;}
+
+    public LibraryAdapter(Context context, ArrayList<T> dataList, String type) {
+        this.context = context;
+        this.dataList = dataList;
+        this.type = type;
+    }
+
+    public void updateEntries(ArrayList<T> updatedData) {
+        this.dataList = updatedData;
         notifyDataSetChanged();
     }
 
-
-
-    @NonNull
-    @Override
-    public LibraryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.library_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final TestAnime entryItem = sampleEntries.get(position);
-        holder.entryTitle.setText(entryItem.getTitle());
-//        holder.entryDate.setText(entryItem.getDate());
-//        holder.entryRate.setText(entryItem.getUserRating());
-//        holder.entryImage.setImageResource(entryItem.getThumbnail());
-//
-//        holder.entryProgress.setText(entryItem.getUserProgress());
-        // TODO: Should obtain total eps/chapters from API call
-//        if (entryItem.getType().equals("Anime")) holder.entryTotal.setText("/Total eps");
-//        else if (entryItem.getType().equals("Manga")) holder.entryTotal.setText("/Total chs");
-
-        // Goes to detail activity
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, DetailActivity.class);
-                // TODO: I think these should be converted to API calls in next phase
-//                i.putExtra(TITLE_TAG, entryItem.getTitle());
-//                i.putExtra(IMAGE_TAG, entryItem.getThumbnail());
-//                i.putExtra(DESC_TAG, entryItem.getSynopsis());
-//                i.putExtra(RATING_TAG, entryItem.getRating());
-//                i.putExtra(YEAR_TAG, entryItem.getDate());
-                context.startActivity(i);
-            }
-        });
-
-        // Goes to edit entry activity
-        holder.entryEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent editIntent = new Intent(context, EditEntryActivity.class);
-//                editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
-//                editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
-//                editIntent.putExtra(USER_STATUS_TAG, entryItem.getUserStatus());
-//                editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
-//                editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
-//                editIntent.putExtra(TYPE_TAG, entryItem.getType());
-                editIntent.putExtra(POS_TAG, holder.getAdapterPosition());
-                //context.startActivity(editIntent);
-                launcher.launch(editIntent);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return sampleEntries.size();
-    }
-
+    // ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView entryImage;
         ImageButton entryEdit;
         TextView entryTitle;
         TextView entryDate;
-        TextView entryProgress;
-        TextView entryRate;
-        TextView entryTotal;
+        TextView userStatus;
+        TextView userRating;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             entryImage = itemView.findViewById(R.id.item_image);
             entryTitle = itemView.findViewById(R.id.item_title);
             entryDate = itemView.findViewById(R.id.item_date);
-            entryProgress = itemView.findViewById(R.id.item_progress);
-            entryTotal = itemView.findViewById(R.id.progress_total);
-            entryRate = itemView.findViewById(R.id.item_rating);
+            userStatus = itemView.findViewById(R.id.user_status);
+            userRating = itemView.findViewById(R.id.user_rating);
             entryEdit = itemView.findViewById(R.id.item_edit);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.library_item, parent, false);
+        return new ViewHolder(view, listener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        T data = dataList.get(position);
+
+        if (type.equals("Anime")) {
+            TestAnime anime = (TestAnime) data;
+            Picasso.get().load(anime.getImageUrl()).into(holder.entryImage); // Use Picasso to load the image from the URL
+            holder.entryTitle.setText(anime.getTitle());
+            holder.entryDate.setText(anime.getDate());
+            holder.userStatus.setText(anime.getUserStatus());
+            holder.userRating.setText(anime.getUserRating());
+        }
+        else if (type.equals("Manga")) {
+            Manga manga = (Manga) data;
+            Picasso.get().load(manga.getImageUrl()).into(holder.entryImage); // Use Picasso to load the image from the URL
+            holder.entryTitle.setText(manga.getTitle());
+            holder.entryDate.setText(manga.getDate());
+            holder.userStatus.setText(manga.getUserStatus());
+            holder.userRating.setText(manga.getUserRating());
+        }
+
+        // Goes to edit entry activity
+//        holder.entryEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent editIntent = new Intent(context, EditEntryActivity.class);
+////                editIntent.putExtra(TITLE_TAG, entryItem.getTitle());
+////                editIntent.putExtra(IMAGE_TAG, entryItem.getThumbnail());
+////                editIntent.putExtra(USER_STATUS_TAG, entryItem.getUserStatus());
+////                editIntent.putExtra(USER_PROGRESS_TAG, entryItem.getUserProgress());
+////                editIntent.putExtra(USER_RATING_TAG, entryItem.getUserRating());
+////                editIntent.putExtra(TYPE_TAG, entryItem.getType());
+//                context.startActivity(editIntent);
+//            }
+//        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+
+
 }

@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent i = getIntent();
-        String id = i.getStringExtra(MainActivity.ID_TAG);
+        int id = i.getIntExtra(MainActivity.ID_TAG, 0);
         String type = i.getStringExtra(MainActivity.TYPE_TAG);
         String title = i.getStringExtra(MainActivity.TITLE_TAG);
         String image = i.getStringExtra(MainActivity.IMAGE_TAG);

@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +34,7 @@ public class AddToLibraryActivity extends AppCompatActivity {
     Button confirmBtn;
     Button cancelBtn;
     EditText editProgress;
+    TextView progressTotal;
     LinearLayout ratingBtnLayout;
     List<LinearLayout> statusLayouts;
     List<Button> statusButtons;
@@ -41,6 +43,8 @@ public class AddToLibraryActivity extends AppCompatActivity {
     private String selectedStatus;
     private String newProgress;
     private String selectedAction;
+    int episodes, chapters;
+    String studios, authors;
 
     DatabaseHelper databaseHelper;
 
@@ -49,45 +53,59 @@ public class AddToLibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_library);
 
-        databaseHelper = new DatabaseHelper(this); // Initialize database helper
+        databaseHelper = new DatabaseHelper(AddToLibraryActivity.this); // Initialize database helper
 
         Intent intent = getIntent();
+        String type = intent.getStringExtra(DetailActivity.TYPE_TAG);
         int id = intent.getIntExtra(DetailActivity.ID_TAG, 0);
+        String imageUrl = intent.getStringExtra(DetailActivity.IMAGE_TAG);
         String title = intent.getStringExtra(DetailActivity.TITLE_TAG);
-        String image = intent.getStringExtra(DetailActivity.IMAGE_TAG);
-        String desc = intent.getStringExtra(DetailActivity.DESC_TAG);
+        String score = intent.getStringExtra(DetailActivity.RATING_TAG);
+        String synopsis = intent.getStringExtra(DetailActivity.DESC_TAG);
         String genres = intent.getStringExtra(DetailActivity.GENRES_TAG);
         String date = intent.getStringExtra(DetailActivity.DATE_TAG);
-        String status = "";
-        String userRating = "";
-        String userProgress = "";
-        String entryType = intent.getStringExtra(DetailActivity.TYPE_TAG);
+        String status = intent.getStringExtra(DetailActivity.STATUS_TAG);
+
+        if (type.equals("Anime")) {
+            episodes = intent.getIntExtra(MainActivity.EPISODES_TAG, 0);
+            studios = intent.getStringExtra(MainActivity.STUDIOS_TAG);
+        }
+        else if (type.equals("Manga")) {
+            chapters = intent.getIntExtra(MainActivity.CHAPTERS_TAG, 0);
+            authors = intent.getStringExtra(MainActivity.AUTHORS_TAG);
+        }
+
 
         // Setting default values for new entry
-        selectedRating = (userRating != null) ? userRating : "Unrated";
-        selectedStatus = (status != null) ? status : "Plan to Watch"; // Default status
-        newProgress = (userProgress != null) ? userProgress : "0"; // Default progress
+        selectedRating = "-"; // Default rating / unrated
+        selectedStatus = "Plan to Watch"; // Default status
+        newProgress = "0";  // Default progress
 
 
         entryTitle = findViewById(R.id.entry_title);
         entryTitle.setText(title);
 
         entryImage = findViewById(R.id.entry_image);
-        Picasso.get().load(image).into(entryImage);
+        Picasso.get().load(imageUrl).into(entryImage);
 
         watchingBtn = findViewById(R.id.watching_btn);
-        if (entryType.equals("Manga")) watchingBtn.setText("Reading");
+        if (type.equals("Manga")) watchingBtn.setText("Reading");
 
         planBtn = findViewById(R.id.plan_btn);
-        if (entryType.equals("Manga")) planBtn.setText("Plan to Read");
+        if (type.equals("Manga")) planBtn.setText("Plan to Read");
 
         exitEdit = findViewById(R.id.exit_edit_button);
         cancelBtn = findViewById(R.id.cancel_btn);
 
         // Setting current progress as hint and obtaining new progress input
         editProgress = findViewById(R.id.editProgress);
-        editProgress.setHint(userProgress);
+        editProgress.setHint("0");
         newProgress = editProgress.getText().toString();
+
+        progressTotal = findViewById(R.id.progressTotal);
+        if (type.equals("Anime")) progressTotal.setText("/ " + String.valueOf(episodes) + " episodes");
+        if (type.equals("Manga")) progressTotal.setText("/ " + String.valueOf(chapters) + " chapters");
+
 
         // For highlighting and getting the currently selected rating value
         ratingBtnLayout = findViewById(R.id.rating_btns_layout);
@@ -143,46 +161,66 @@ public class AddToLibraryActivity extends AppCompatActivity {
                 newProgress = editProgress.getText().toString(); // Capture the progress input
 
                 // Assuming you have a way to determine whether it's Anime or Manga
-                if (entryType.equals("Anime")) {
-                    TestAnime anime = new TestAnime();
-                    // Set properties for anime
-                    anime.setMal_id(id);
-                    anime.setImageUrl(image/);
-                    anime.setTitle(title);
-                    anime.setEpisodes();
-                    anime.setStatus(selectedStatus);
-                    anime.setScore(selectedRating);
-                    anime.setSynopsis(/* Synopsis */);
-                    anime.setDate(/* Date */);
-                    anime.setStudios(/* Studios */);
-                    anime.setGenres(/* Genres */);
+                if (type.equals("Anime")) {
+                    TestAnime anime = new TestAnime(
+                        id,
+                        imageUrl,
+                        title,
+                        episodes,
+                        status,
+                        score,
+                        synopsis,
+                        date,
+                        studios,
+                        genres
+                    );
+
+
+                    anime.setUserRating(selectedRating);
+
+                    if (newProgress.equals(""))
+                        anime.setUserProgress("0");
+                    else
+                        anime.setUserProgress(newProgress);
+
+                    anime.setUserStatus(selectedStatus);
 
                     // Save to database
-                    databaseHelper.addAnime(anime);
-                } else if (entryType.equals("Manga")) {
-                    Manga manga = new Manga();
-                    // Set properties for manga
-                    manga.setMal_id(/* ID from intent or generate new */);
-                    manga.setImageUrl(/* Image URL */);
-                    manga.setTitle(title);
-                    manga.setChapters(/* Number of chapters */);
-                    manga.setStatus(selectedStatus);
-                    manga.setScore(selectedRating);
-                    manga.setSynopsis(/* Synopsis */);
-                    manga.setDate(/* Date */);
-                    manga.setAuthors(/* Authors */);
-                    manga.setGenres(/* Genres */);
+                    if (databaseHelper.getAnime(id) == null)
+                        databaseHelper.addAnime(anime);
+                    else
+                        Toast.makeText(AddToLibraryActivity.this, "Anime is already in library", Toast.LENGTH_SHORT).show();
+                } else if (type.equals("Manga")) {
+                    Manga manga = new Manga(
+                        id,
+                        imageUrl,
+                        title,
+                        chapters,
+                        status,
+                        score,
+                        synopsis,
+                        date,
+                        authors,
+                        genres
+                    );
+
+                    manga.setUserRating(selectedRating);
+                    if (newProgress.equals(""))
+                        manga.setUserProgress("0");
+                    else
+                        manga.setUserProgress(newProgress);
+
+                    manga.setUserStatus(selectedStatus);
 
                     // Save to database
-                    databaseHelper.addManga(manga);
+                    if (databaseHelper.getManga(id) == null)
+                        databaseHelper.addManga(manga);
+                    else
+                        Toast.makeText(AddToLibraryActivity.this, "Manga is already in library", Toast.LENGTH_SHORT).show();
                 }
 
-                Intent return_intent = new Intent();
-                return_intent.putExtra(RATING_TAG, selectedRating);
-                return_intent.putExtra(PROGRESS_TAG, newProgress);
-                return_intent.putExtra(STATUS_TAG, selectedStatus);
-                return_intent.putExtra(ACTION_TAG, selectedAction);
-                setResult(Activity.RESULT_OK, return_intent);
+                Intent libIntent = new Intent(AddToLibraryActivity.this, LibraryActivity.class);
+                startActivity(libIntent);
                 finish();
             }
         });

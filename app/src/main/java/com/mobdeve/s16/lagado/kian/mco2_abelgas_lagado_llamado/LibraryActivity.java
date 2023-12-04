@@ -21,7 +21,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryActivity extends AppCompatActivity {
+public class LibraryActivity<T> extends AppCompatActivity {
 
     // TODO: change toggle button to a better looking one
     ToggleButton toggleList;
@@ -34,78 +34,37 @@ public class LibraryActivity extends AppCompatActivity {
     Button watchingStatus;
     Button doneStatus;
     Button holdStatus;
-    List<TestAnime> sampleEntries;
     LibraryAdapter libraryAdapter;
+    RecyclerView recyclerView;
     private String currentType;
-    private List<TestAnime> currentEntries;
     private String currentStatus;
-
-    // For displaying changes made in editactivity on the library recyclerview
-//    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        String action = result.getData().getStringExtra(EditEntryActivity.ACTION_TAG);
-//                        int itemIndex = result.getData().getIntExtra(EditEntryActivity.POS_TAG, 0);
-//                        if (action.equals("Confirm")) {
-//                            // Getting the index of entry that was updated and the data that was updated
-//                            String updated_rating = result.getData().getStringExtra(EditEntryActivity.RATING_TAG);
-//                            String updated_progress = result.getData().getStringExtra(EditEntryActivity.PROGRESS_TAG);
-//                            String updated_status = result.getData().getStringExtra(EditEntryActivity.STATUS_TAG);
-//
-//                            // Updating the entry
-////                            currentEntries.get(itemIndex).setUserRating(updated_rating);
-////                            currentEntries.get(itemIndex).setUserProgress(updated_progress);
-////                            currentEntries.get(itemIndex).setUserStatus(updated_status);
-//                        }
-//                        else if (action.equals("Remove")) {
-//                            // Get title of removed entry and remove from dataset
-//                            String removed_entry_title = currentEntries.get(itemIndex).getTitle();
-//                            sampleEntries.removeIf(entry -> entry.getTitle().equals(removed_entry_title));
-//                        }
-//
-//                        // Updating the dataset and refreshing recyclerview
-//                        currentEntries = filterListByStatus(currentStatus, currentType, sampleEntries);
-//                        entriesCount.setText(currentEntries.size() + " entries");
-//                        libraryAdapter.updateEntries(currentEntries);
-//                    }
-//                }
-//            }
-//    );
+    private DatabaseHelper databaseHelper;
+    private ArrayList<T> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
-        toggleList = findViewById(R.id.toggle_list);
-        profileIcon = findViewById(R.id.library_profile_icon);
-        filterIcon = findViewById(R.id.library_filter_icon);
-        searchIcon = findViewById(R.id.library_search_icon);
-        entriesCount = findViewById(R.id.entries_count);
-
-        planStatus = findViewById(R.id.planned_status);
-        allStatus = findViewById(R.id.all_status);
-        watchingStatus = findViewById(R.id.watching_status);
-        doneStatus = findViewById(R.id.completed_status);
-        holdStatus = findViewById(R.id.hold_status);
-
-        // Default recyclerview settings
+        // Default settings
         currentType = "Anime";
         currentStatus = "All";
-//        currentEntries = filterListByStatus("All", currentType, sampleEntries);
-        entriesCount.setText(currentEntries.size() + " entries");
+        dataList = new ArrayList<>();
+        databaseHelper = new DatabaseHelper(LibraryActivity.this);
 
-        // Library adapter
-        RecyclerView recyclerView = findViewById(R.id.library_recycler);  // Initialize the RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set its layout manager
-//        libraryAdapter = new LibraryAdapter(this, currentEntries, launcher);
-        recyclerView.setAdapter(libraryAdapter);                             // Attach the adapter
+        // Initialize the RecyclerView
+        recyclerView = findViewById(R.id.library_recycler);
+
+        // get initial data
+        getList(currentType);
+
+        // ----- entries count ------
+        entriesCount = findViewById(R.id.entries_count);
+        entriesCount.setText(dataList.size() + " entries");
 
 
-
+        // ------ profile button ------
+        profileIcon = findViewById(R.id.library_profile_icon);
         profileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +73,8 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
+        // ---- filter and search buttons ----
+        filterIcon = findViewById(R.id.library_filter_icon);
         filterIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +83,7 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
+        searchIcon = findViewById(R.id.library_search_icon);
         searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,31 +91,39 @@ public class LibraryActivity extends AppCompatActivity {
                 startActivity(searchIntent);
             }
         });
-//        toggleList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!toggleList.isChecked()) {
-//                    planStatus.setText("Plan to Watch");
-//                    watchingStatus.setText("Watching");
-//                    currentType = "Anime";
-//                    if (currentStatus.equals("Reading")) currentStatus = "Watching";
-//                    if (currentStatus.equals("Plan to Read")) currentStatus = "Plan to Watch";
-//                }
-//                else {
-//                    planStatus.setText("Plan to Read");
-//                    watchingStatus.setText("Reading");
-//                    currentType = "Manga";
-//                    if (currentStatus.equals("Watching")) currentStatus = "Reading";
-//                    if (currentStatus.equals("Plan to Watch")) currentStatus = "Plan to Read";
-//                }
-//                currentEntries = filterListByStatus(currentStatus, currentType, sampleEntries);
-//                entriesCount.setText(currentEntries.size() + " entries");
-//                libraryAdapter.updateEntries(currentEntries);
-//            }
-//        });
+
+        // ---- switch between anime and manga lists ----
+        toggleList = findViewById(R.id.toggle_list);
+        toggleList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!toggleList.isChecked()) {
+                    planStatus.setText("Plan to Watch");
+                    watchingStatus.setText("Watching");
+                    currentType = "Anime";
+                    if (currentStatus.equals("Reading")) currentStatus = "Watching";
+                    if (currentStatus.equals("Plan to Read")) currentStatus = "Plan to Watch";
+                }
+                else {
+                    planStatus.setText("Plan to Read");
+                    watchingStatus.setText("Reading");
+                    currentType = "Manga";
+                    if (currentStatus.equals("Watching")) currentStatus = "Reading";
+                    if (currentStatus.equals("Plan to Watch")) currentStatus = "Plan to Read";
+                }
+                getList(currentType);
+                entriesCount.setText(dataList.size() + " entries");
+                // Reset adapter
+                setupAdapter();
+            }
+        });
 
         //For filtering recyclerview based on watch status and entry type
         // TODO: highlight currently selected status
+
+
+        // ---- status buttons ----
+        allStatus = findViewById(R.id.all_status);
 //        allStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -163,7 +133,7 @@ public class LibraryActivity extends AppCompatActivity {
 //                entriesCount.setText(currentEntries.size() + " entries");
 //            }
 //        });
-
+        watchingStatus = findViewById(R.id.watching_status);
 //        watchingStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -177,6 +147,7 @@ public class LibraryActivity extends AppCompatActivity {
 //            }
 //        });
 
+        doneStatus = findViewById(R.id.completed_status);
 //        doneStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -187,6 +158,7 @@ public class LibraryActivity extends AppCompatActivity {
 //            }
 //        });
 
+        planStatus = findViewById(R.id.planned_status);
 //        planStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -200,6 +172,7 @@ public class LibraryActivity extends AppCompatActivity {
 //            }
 //        });
 
+        holdStatus = findViewById(R.id.hold_status);
 //        holdStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -210,21 +183,25 @@ public class LibraryActivity extends AppCompatActivity {
 //            }
 //        });
 
+        // ---- initial adapter setup ----
+        setupAdapter();
+
     }
 
-//    private List<TestAnime> filterListByStatus(String status, String type, List<TestAnime> entries) {
-//        if (currentType.equals("Anime")) {
-//            List<TestAnime> filteredList = new ArrayList<>();
-//            for (int i = 0; i < entries.size(); i++) {
-//                TestAnime item = entries.get(i);
-//                if (item.getType().equals(type)) {
-//                    if (item.getUserStatus().equals(status) || "All".equals(status)) {
-//                        filteredList.add(item);
-//                    }
-//                }
-//            }
-//        }
-//        return filteredList;
-//    }
+
+
+    private void setupAdapter() {
+        libraryAdapter = new LibraryAdapter(LibraryActivity.this, dataList, currentType);
+        recyclerView.setLayoutManager(new LinearLayoutManager(LibraryActivity.this)); // Set its layout manager
+        recyclerView.setAdapter(libraryAdapter);                      // Attach the adapter
+    }
+
+    private void getList(String currentType) {
+        dataList.clear();
+        if (currentType.equals("Anime"))
+            dataList.addAll(databaseHelper.getAllAnime());
+        else if (currentType.equals("Manga"))
+            dataList.addAll(databaseHelper.getAllManga());
+    }
 
 }
