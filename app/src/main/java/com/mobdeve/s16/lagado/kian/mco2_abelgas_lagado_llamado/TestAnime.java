@@ -1,12 +1,5 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class TestAnime {
 
     // year: Assuming year of release or airing

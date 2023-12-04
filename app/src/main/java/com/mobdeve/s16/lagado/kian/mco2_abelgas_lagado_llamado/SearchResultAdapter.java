@@ -1,7 +1,6 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchResultAdapter<T> extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 

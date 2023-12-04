@@ -1,7 +1,6 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

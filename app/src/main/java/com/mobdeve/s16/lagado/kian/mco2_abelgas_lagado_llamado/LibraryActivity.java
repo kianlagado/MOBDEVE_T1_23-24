@@ -1,14 +1,9 @@
 package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +14,6 @@ import android.widget.ToggleButton;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LibraryActivity<T> extends AppCompatActivity {
 

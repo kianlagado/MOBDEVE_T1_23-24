@@ -2,7 +2,6 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,12 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddToLibraryActivity extends AppCompatActivity {
-    public static String RATING_TAG = "RATING";
-    public static String PROGRESS_TAG = "PROGRESS";
-    public static String STATUS_TAG = "STATUS";
-    public static String POS_TAG = "POS";
-    public static String ACTION_TAG = "ACTION";
-
     TextView entryTitle;
     ImageView entryImage;
     ImageButton exitEdit;
@@ -103,8 +96,8 @@ public class AddToLibraryActivity extends AppCompatActivity {
         newProgress = editProgress.getText().toString();
 
         progressTotal = findViewById(R.id.progressTotal);
-        if (type.equals("Anime")) progressTotal.setText("/ " + String.valueOf(episodes) + " episodes");
-        if (type.equals("Manga")) progressTotal.setText("/ " + String.valueOf(chapters) + " chapters");
+        if (type.equals("Anime")) progressTotal.setText("/ " + episodes + " episodes");
+        if (type.equals("Manga")) progressTotal.setText("/ " + chapters + " chapters");
 
 
         // For highlighting and getting the currently selected rating value
