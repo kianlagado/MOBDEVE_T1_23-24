@@ -2,14 +2,12 @@ package com.mobdeve.s16.lagado.kian.mco2_abelgas_lagado_llamado;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,15 +29,11 @@ public class MainActivity<T> extends AppCompatActivity {
     public static String CHAPTERS_TAG = "CHAPTERS";
     public static String TYPE_TAG = "TYPE";
     private String currentType;
-    private int currentPage;
-    private boolean isLoading;
     private ArrayList<T> dataList;
     AnimeAdapter animeAdapter;
     AnimeAdapter mangaAdapter;
     RecyclerView recyclerView;
     DataService animaExpress;
-    Handler handler = new Handler();
-    private Runnable loadNextPageRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +42,6 @@ public class MainActivity<T> extends AppCompatActivity {
 
         // Default settings
         currentType = "Anime";
-        currentPage = 1;
-        isLoading = false;
         dataList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recycler_view);  // Initialize the RecyclerView
@@ -95,7 +87,7 @@ public class MainActivity<T> extends AppCompatActivity {
         // --------------DATA FETCHING-------------------
         //RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         DataService animaExpress = new DataService(MainActivity.this);
-        fetchTop(animaExpress, currentType, currentPage); // load initial data
+        fetchTop(animaExpress, currentType);
 
         // For highlighting and displaying filtered data based on currently selected mode
         LinearLayout toggleLayout = findViewById(R.id.toggle_layout);
@@ -114,71 +106,19 @@ public class MainActivity<T> extends AppCompatActivity {
 
                     button.setActivated(true);
                     button.setBackgroundColor(getResources().getColor(R.color.selected_status_btn));
-                    dataList.clear();
-                    currentPage = 1;
                     currentType = button.getText().toString();
-                    fetchTop(animaExpress, currentType, currentPage);
-
-                    // Reset adapter
-                    setupAdapter();
-
+                    fetchTop(animaExpress, currentType);
                 }
             });
         }
 
-        // Initial adapter setup ----------------------------
-        setupAdapter();
-
-        //Pagination ----------------------
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPos = layoutManager.findFirstVisibleItemPosition();
-
-                if (!isLoading) {
-                    if ((visibleItemCount + firstVisibleItemPos) >= totalItemCount && firstVisibleItemPos >= 0) {
-                        handler.removeCallbacks(loadNextPageRunnable);
-                        loadNextPageRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                currentPage++;
-                                loadNextPage(animaExpress, currentType, currentPage);
-                            }
-                        };
-                        handler.postDelayed(loadNextPageRunnable, 500);
-                    }
-                }
-            }
-        });
-
-
-
 
 
 
     }
 
-    private void setupAdapter() {
-        animeAdapter = new AnimeAdapter(MainActivity.this, dataList, currentType);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this)); // Set its layout manager
-        recyclerView.setAdapter(animeAdapter); // Attach the adapter
-    }
-
-    private void loadNextPage(DataService animaExpress, String currentType, int currentPage) {
-        if (isLoading)
-            return;
-        isLoading = true;
-        fetchTop(animaExpress, currentType, currentPage);
-        isLoading = false;
-    }
-
-    private void fetchTop(DataService animaExpress, String currentType, int currentPage) {
-        animaExpress.displayTop(currentType, currentPage, new DataService.VolleyResponseListener() {
+    private void fetchTop(DataService animaExpress, String currentType) {
+        animaExpress.displayTop(currentType, new DataService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 Toast.makeText(MainActivity.this, "Failed to obtain Top " + currentType, Toast.LENGTH_SHORT).show();
@@ -186,12 +126,13 @@ public class MainActivity<T> extends AppCompatActivity {
 
             @Override
             public void onResponse(ArrayList response) {
-                int startIndex = dataList.size();
-                dataList.addAll(response);
+                dataList = response;
 
-                animeAdapter.updateData(dataList, startIndex);
-
-                Toast.makeText(MainActivity.this, String.valueOf(currentPage), Toast.LENGTH_SHORT).show();
+                // Setting up the adapter --------------------------
+                animeAdapter = new AnimeAdapter(MainActivity.this, dataList, currentType);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this)); // Set its layout manager
+                recyclerView.setAdapter(animeAdapter); // Attach the adapter
+                animeAdapter.updateData(dataList);
 
                 animeAdapter.setOnItemClickListener(new AnimeAdapter.OnItemClickListener() {
                     @Override
@@ -229,8 +170,6 @@ public class MainActivity<T> extends AppCompatActivity {
                         startActivity(detailIntent);
                     }
                 });
-
-
 
 
             }

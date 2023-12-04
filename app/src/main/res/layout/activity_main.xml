@@ -113,9 +113,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toggle_layout"
-        android:background="#DCDCDC"
         android:divider="#5E758D"
         android:dividerHeight="1dp"
+        android:background="#DCDCDC"
         android:listSelector="#E5D5BA" />
 
 </RelativeLayout>
